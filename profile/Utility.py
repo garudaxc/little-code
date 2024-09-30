@@ -418,18 +418,6 @@ PlatformConfig.ContentDir = ""
         self.logger(output)
 
 
-class ToggleButtonHelper:
-    def __init__(self, func, variable : tk.BooleanVar = None):
-        if not variable:
-            self.variable = tk.BooleanVar()
-        else:
-            self.variable =  variable
-
-        self.func = func
-        
-    def __call__(self):
-        self.func(self.variable.get())
-
 
 
 class PerforceUtility:
@@ -482,6 +470,42 @@ class PerforceUtility:
 #     device_list = execute_adb_command('devices')
 #     print(device_list)
 
+class ToggleButtonHelper:
+    def __init__(self, func, variable : tk.BooleanVar = None):
+        if not variable:
+            self.variable = tk.BooleanVar()
+        else:
+            self.variable =  variable
+
+        self.func = func
+        
+    def __call__(self):
+        self.func(self.variable.get())
+
+
+class ComboHelper:
+    def __init__(self, widget : Combobox, func, config = None):
+        assert widget
+        assert func
+
+        self.widget = widget
+        self.func = func
+        self.config = config
+
+        if config:
+            name = self.widget.winfo_name()
+            assert name != ''
+            self.widget.current(config.get(name, 0))
+
+    def __call__(self, event):
+        value = self.widget.get()
+        self.func(value)
+
+        if self.config:
+            name = self.widget.winfo_name()
+            sel_index = self.widget.current()
+            if sel_index != -1:
+                self.config.update(name, sel_index)
 
 
 class Window:
@@ -726,23 +750,23 @@ class Window:
         button_show_transparency = Button(tab2, text="show transparency", command=lambda : self.connection.toggle_flag("ShowFlag.Translucency"), **style)
         current_row, current_column = self.setup_grid_layout(button_show_transparency, current_row, current_column)
 
-        current_row, current_column = current_row + 1, 0       
+        current_row, current_column = current_row + 1, 0
+
         lable = Label(tab2, text="scale factor")
         current_row, current_column = self.setup_grid_layout(lable, current_row, current_column)
-
-        combo_scale_factor = ttk.Combobox(tab2, values=["0.5", "0.75", "1.0", "1.25", "1.5"])
+        combo_scale_factor = Combobox(tab2, values=["1.25", "1.0", "1.5", '0', "0.8", "0.9"], justify='right', name='content_scale_factor')        
         current_row, current_column = self.setup_grid_layout(combo_scale_factor, current_row, current_column)
-        # button_scale_factor08 = Button(tab2, text="scale factor 1.25", command=lambda : self.connection.console_command("r.MobileContentScaleFactor 1.25"), **style)
-        # current_row, current_column = self.setup_grid_layout(button_scale_factor08, current_row, current_column)
+        helper = ComboHelper(combo_scale_factor, func=lambda x: self.connection.console_command(f"r.MobileContentScaleFactor {x}"), config=self.config)
+        combo_scale_factor.bind("<<ComboboxSelected>>", helper)
+        combo_scale_factor.bind('<Return>', helper)
 
-        # button_scale_factor0 = Button(tab2, text="scale factor 0", command=lambda : self.connection.console_command("r.MobileContentScaleFactor 0"), **style)
-        # current_row, current_column = self.setup_grid_layout(button_scale_factor0, current_row, current_column)
-
-        # button_scale_factor15 = Button(tab2, text="scale factor 0.8", command=lambda : self.connection.console_command("r.MobileContentScaleFactor 0.8"), **style)
-        # current_row, current_column = self.setup_grid_layout(button_scale_factor15, current_row, current_column)
-
-        # button_scale_factor10 = Button(tab2, text="scale factor 1.0", command=lambda : self.connection.console_command("r.MobileContentScaleFactor 1.0"), **style)
-        # current_row, current_column = self.setup_grid_layout(button_scale_factor10, current_row, current_column)
+        lable = Label(tab2, text="screen percentage")
+        current_row, current_column = self.setup_grid_layout(lable, current_row, current_column)
+        combo_screen_percentage = Combobox(tab2, values=["100", "120", "90", "110", "80", "70"], justify='right', name='screen_percentage')
+        current_row, current_column = self.setup_grid_layout(combo_screen_percentage, current_row, current_column)
+        helper = ComboHelper(combo_screen_percentage, func=lambda x: self.connection.console_command(f"r.ScreenPercentage {x}"), config=self.config)
+        combo_screen_percentage.bind("<<ComboboxSelected>>", helper)
+        combo_screen_percentage.bind('<Return>', helper)
 
         button_show_particles = Button(tab2, text="show particles", command=lambda : self.connection.toggle_flag("ShowFlag.Particles"), **style)
         current_row, current_column = self.setup_grid_layout(button_show_particles, current_row, current_column)
@@ -768,9 +792,6 @@ class Window:
         toggler = ToggleButtonHelper(func = lambda b : self.connection.console_command("fogclear") if b else self.connection.console_command("fogresume"))
         button_clear_fog = Checkbutton(tab2, text="clear fog", variable=toggler.variable, command=toggler, indicatoron=False, **style)
         current_row, current_column = self.setup_grid_layout(button_clear_fog, current_row, current_column)
-
-        # button_fog_resume = Button(tab2, text="fog resume", command=lambda : self.connection.console_command("fogresume"), **style)
-        # current_row, current_column = self.setup_grid_layout(button_fog_resume, current_row, current_column)
 
         current_row, current_column = current_row + 1, 0
         
