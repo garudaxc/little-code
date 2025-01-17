@@ -10,10 +10,30 @@ import re
 import inspect
 import shutil
 import io
+import socket
 from datetime import datetime
 import time
 
 EncryptionKey = r'+EsQIZSAj7rT28Jx5nF+yYhjkOTTdCH6dOub1MYMfvY='
+
+pso_path = '/sdcard/Android/data/com.kaboom.BeyondStar/files/ProgramBinaryCache'
+
+
+confg_pak_content = '''
+"[project]/Config/DefaultEngine.ini" "../../../BeyondStar/Config/DefaultEngine.ini" -compress
+"[project]/Config/Android/AndroidEngine.ini" "../../../BeyondStar/Config/Android/AndroidEngine.ini" -compress
+"[project]/Config/IOS/IOSEngine.ini" "../../../BeyondStar/Config/IOS/IOSEngine.ini" -compress
+"[project]/Config/DefaultScalability.ini" "../../../BeyondStar/Config/DefaultScalability.ini" -compress
+"[project]/Config/DefaultDeviceProfiles.ini" "../../../BeyondStar/Config/DefaultDeviceProfiles.ini" -compress
+"[project]/Config/Android/AndroidScalability.ini" "../../../BeyondStar/Config/Android/AndroidScalability.ini" -compress
+"[project]/Config/IOS/IOSScalability.ini" "../../../BeyondStar/Config/IOS/IOSScalability.ini" -compress
+"[engine]/Config/BaseScalability.ini" "../../../Engine/Config/BaseScalability.ini" -compress
+"[engine]/Config/BaseDeviceProfiles.ini" "../../../Engine/Config/BaseDeviceProfiles.ini" -compress
+'''
+
+# pak_config_cmd = '''
+# D:\unrealengine\Engine\Binaries\Win64\UnrealPak.exe "D:/ka1_client/client/trunk/BeyondStar/Saved/HotPatcher/Paks/2024.10.29-16.00.00/Android_ASTC/2024.10.29-16.00.00_Android_ASTC_001_P.pak" -create="D:/ka1_client/client/trunk/BeyondStar/Saved/HotPatcher/Paks/2024.10.29-16.00.00/Android_ASTC/2024.10.29-16.00.00_Android_ASTC_001_P_PakCommands.txt" -AlignForMemoryMapping=0 -compress -compressionformats=Zlib -cryptokeys="D:/ka1_client/client/trunk/BeyondStar/Saved/HotPatcher/Crypto.json" -projectdir="D:/ka1_client/client/trunk/BeyondStar/" -enginedir="D:/unrealengine/Engine/" -platform=Android
+# '''
 
 class MainWapper:
     def __init__(self, func):
@@ -25,6 +45,42 @@ class MainWapper:
 def main(func):        
     return MainWapper(func)
 
+class HistoryValue:
+    def __init__(self, size = 10, init_value = None):
+        self.size = size
+
+        if init_value is None:
+            self.history_value = []
+        else:
+            if isinstance(init_value, list) or isinstance(init_value, tuple) or isinstance(init_value, set):
+                self.history_value = list(init_value)
+            else:
+                self.history_value = [init_value]
+
+    def Update(self, value):
+        if value not in self.history_value:
+            self.history_value.append(value)
+        else:
+            self.history_value.remove(value)
+            self.history_value.append(value)
+
+        if len(self.history_value) > self.size:
+            self.history_value.pop(0)
+
+    def __str__(self):
+        # serialize to string buffer
+        buffer = io.StringIO()
+        # buffer.write('')
+        for i in self.history_value:
+            buffer.write(str(i))
+            buffer.write('\n')
+        return buffer.getvalue()
+    
+    def ConvertFromString(self, string):
+        self.history_value = []
+        for line in string.split('\n'):
+            if line:
+                self.Update(line)
 
 
 class Config:
@@ -163,6 +219,41 @@ class Utility:
         os.system(f'explorer "{Utility.apk_dir}"')
 
 
+    @staticmethod
+    def create_pak_with_files(files, output_pak_name):
+
+        pack_too_path = r'D:/unrealengine/Engine/Binaries/Win64/UnrealPak.exe'
+        project_dir = r'D:/ka1_client/client/trunk/BeyondStar/'
+        engine_dir = r'D:/unrealengine/Engine/'
+
+
+        if len(files) == 0:
+            messagebox.showwarning(None, "no files to pack")
+            return
+
+        # create temp file
+        temp_file = tempfile.mktemp('.txt')
+        with open(temp_file, 'w') as f:
+            f.write(f'{files}\n')
+
+        print(f'write temp file {temp_file}')
+
+        #  -projectdir="D:/ka1_client/client/trunk/BeyondStar/" -enginedir="D:/unrealengine/Engine/" -platform=Android
+
+        # create pak
+        cmd = f'{pack_too_path} "{output_pak_name}" -create="{temp_file}" -AlignForMemoryMapping=0 -compress -compressionformats=Zlib'
+        # print(cmd)
+        result = os.system(cmd)
+
+        # delete temp file
+        os.remove(temp_file)
+
+        if result != 0:
+            messagebox.showwarning(None, "create pak failed")
+            
+        return result
+
+
 class DefaultLogger:
     def __init__(self):
         pass
@@ -195,17 +286,41 @@ class AdbConnection:
         self.console_flags = {}
 
         # self.project_path = f'/sdcard/UE4Game/{self.project_name}/{self.project_name}'
-        self.project_path = f'/sdcard/Android/data/{self.package_name}/files/UE4Game/{self.project_name}/{self.project_name}'
-        self.project_path = f'/data/data/{self.package_name}/files/UE4Game/{self.project_name}/{self.project_name}'
+        self.project_path = self.find_project_path()
 
         # self.process_name = 'com.kaboom.beyondstar.trunk'
 
         # self.device_list = self.execute_adb_command('devices')
         # print(self.device_list)
 
-        self.fetch_device_info()
+        self.connect_state = self.fetch_device_info()
 
+    def get_connection_info(self):
+        if self.connect_state:
+            return f'{self.devices_brand} {self.devices_model}'
+        
+        else:
+            return 'not connected'
 
+    def find_project_path(self):
+        try:
+            candidata_path = f'/data/data/{self.package_name}/files/UE4Game/{self.project_name}/{self.project_name}'
+            result = self.execute_adb_command(f"shell run-as {self.package_name} ls {candidata_path}/Saved/Logs")
+            if result != 0:
+                candidata_path = f'/sdcard/Android/data/{self.package_name}/files/UE4Game/{self.project_name}/{self.project_name}'
+                result = self.execute_adb_command(f"shell run-as {self.package_name} ls {candidata_path}/Saved/Logs")
+
+                if result != 0:
+                    result = self.execute_adb_command(f"shell ls {candidata_path}/Saved/Logs")
+
+                assert result == 0, f'can not find project path {candidata_path}'
+
+            print(f"found project path {candidata_path}")
+
+            return candidata_path
+        except Exception as e:
+            print(e)
+            return None
     
     def execute_adb_command(self, command : str, use_subprocess=False):
         self.logger(command)
@@ -253,7 +368,11 @@ class AdbConnection:
         else:
             return 'com.kaboom.beyondstar.trunk'
         
+    def start_process(self):
+        self.execute_adb_command(f'{self.conection_string} shell am start -n {self.package_name}/com.epicgames.ue4.GameActivity')
 
+    def stop_process(self):
+        self.execute_adb_command(f'{self.conection_string} shell am force-stop {self.package_name}')
 
     def get_adb_meminfo(self):
         '''
@@ -275,8 +394,11 @@ class AdbConnection:
             self.devices_brand = result.decode('utf-8').strip()
 
             self.logger('device info', self.devices_model, self.devices_manufacturer, self.devices_brand)
+
+            return True
         except:
-            pass
+            
+            return False
     
 
 
@@ -315,6 +437,11 @@ class AdbConnection:
     def send_file_to_pck(self, file_path : str):
         self.execute_adb_command(f'{self.conection_string} push {file_path} {self.project_path}/Saved/pck/')
 
+    def remove_lua_file(self, file_path : str):
+        base_file_name = os.path.basename(file_path)
+        print('base file ', base_file_name)
+        self.execute_adb_command(f'{self.conection_string} shell rm {self.project_path}/Saved/pck/{base_file_name}')
+
     def toggle_flag(self, flag_name : str):
         flag = False
         if flag_name in self.console_flags:
@@ -323,7 +450,8 @@ class AdbConnection:
         self.console_flags[flag_name] = flag
 
         value = 1 if flag else 0
-        self.execute_adb_command(f'{self.conection_string} shell \"am broadcast -a android.intent.action.RUN -e cmd \'{flag_name} {value}\'\"')
+        self.console_command(f'{flag_name} {value}')
+        # self.execute_adb_command(f'{self.conection_string} shell \"am broadcast -a android.intent.action.RUN -e cmd \'{flag_name} {value}\'\"')
 
     def push_android_lua_file(self):
         # adb shell mkdir -p /sdcard/UE4Game/BeyondStar/BeyondStar/Saved/pck
@@ -346,6 +474,14 @@ PlatformConfig.ContentDir = ""
 
         os.remove(temp_file_name)
 
+        self.restart_process()
+
+
+    def restart_process(self):
+            self.stop_process()
+            time.sleep(0.5)
+            self.start_process()
+
     def push_newest_pack_file(self):
         pak_file_name = Utility.find_newest_pak_file()
         if not pak_file_name:
@@ -362,6 +498,53 @@ PlatformConfig.ContentDir = ""
 
     def delete_all_pack_file(self):
         self.execute_adb_command(f'{self.conection_string} shell rm {self.project_path}/Saved/Paks/*')
+
+    
+    pak_file_name = 'config_p.pak'
+
+    def create_config_pak_and_push_to_device(self, to_paks_or_pck = True):
+        
+        pack_too_path = r'D:/unrealengine/Engine/Binaries/Win64/UnrealPak.exe'
+        project_dir = r'D:/ka1_client/client/trunk/BeyondStar'
+        engine_dir = r'D:/unrealengine/Engine'
+
+        src_file_name = os.path.join('d:/', AdbConnection.pak_file_name).replace('\\', '/')
+        print(src_file_name)
+
+        files_to_pak = confg_pak_content.replace('[project]', project_dir).replace('[engine]', engine_dir)
+        print('files to pak\n', files_to_pak)        
+
+        result = Utility.create_pak_with_files(files_to_pak, src_file_name)
+        if result != 0:
+            self.logger('create config pak failed', result)
+            return
+        
+        sub_dir = 'Paks' if to_paks_or_pck else 'pck'
+
+        self.execute_adb_command(f'{self.conection_string} shell mkdir -p {self.project_path}/Saved/{sub_dir}/')
+        result = self.execute_adb_command(f'{self.conection_string} push \"{src_file_name}\" {self.project_path}/Saved/{sub_dir}/')
+
+        if result != 0:
+            self.logger('push config pak failed', result)
+            return
+        
+        if to_paks_or_pck:
+            self.logger('push config pak success, retart process', result)
+            self.stop_process()
+            time.sleep(0.5)
+            self.start_process()
+
+        # elif messagebox.askokcancel(message=f"restart process?"):
+
+        elif messagebox.askokcancel(message='reload pak?'):
+            self.console_command(f'ExecMountPak {self.project_path}/Saved/{sub_dir}/{AdbConnection.pak_file_name} 0')
+            # self.execute_adb_command(f'{self.conection_string} shell rm {self.project_path}/Saved/pck/{pak_file_name}')
+
+
+    def remove_config_pak(self):
+                
+        self.execute_adb_command(f'{self.conection_string} shell rm {self.project_path}/Saved/Paks/{AdbConnection.pak_file_name}')
+        self.execute_adb_command(f'{self.conection_string} shell rm {self.project_path}/Saved/pck/{AdbConnection.pak_file_name}')
 
 
     def fetch_memory_report_file(self):
@@ -397,7 +580,9 @@ PlatformConfig.ContentDir = ""
         with open(temp_file_name, 'w', encoding='utf-8') as f:
             f.write(command)
 
+        self.logger(temp_file_name, self.project_path)
         file_path = self.project_path.rsplit('/', 1)[0]
+        self.logger(file_path)
 
         self.execute_adb_command(f'{self.conection_string} push {temp_file_name} {file_path}/')        
         os.remove(temp_file_name)
@@ -417,7 +602,66 @@ PlatformConfig.ContentDir = ""
         output = self.execute_adb_command(f'{self.conection_string} shell cat {file_path}/UE4CommandLine.txt')
         self.logger(output)
 
+    def disconnect(self):
+        pass
 
+
+# derive from AdbConnection
+class SocketConnection(AdbConnection):
+    def __init__(self, host):
+        print(f'init socket connection {host}')
+
+        self.host = host
+        self.port = 8888
+        self.connect_state = self.connect()
+
+
+    def connect(self):
+        succeeded = False
+        server_ip = self.host
+        server_port = self.port
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)        
+
+        try:
+            client_socket.connect((server_ip, server_port))
+            succeeded = True
+
+            self.socket = client_socket
+
+        except socket.error as e:
+            print("连接服务器出错:", e)
+
+        return succeeded
+    
+    def disconnect(self):
+        if not self.connect_state:
+            return
+        
+        self.socket.close()
+        self.socket = None
+        self.connect_state = False
+
+
+    def execute_adb_command(self, command : str, use_subprocess=False):
+        return 0
+    
+    
+    def console_command(self, command : str):
+        if not self.connect_state:
+            print('console_command : socket not connected')
+            return
+
+        try:
+            self.socket.send(command.encode('utf-8'))
+        except socket.error as e:
+            print("发送命令出错:", e)    
+    
+    def get_connection_info(self):
+        if self.connect_state:
+            return 'socket connected'
+        
+        else:
+            return 'socket not connected'
 
 
 class PerforceUtility:
@@ -527,9 +771,10 @@ class Window:
 
 
 
-    def __init__(self, connection : AdbConnection):
+    def __init__(self, connect_info):
         self.root = Tk()
-        self.connection = connection
+        self.connect_info = connect_info
+        self.connection = None
         self.config = Config()
 
         self.logger = DefaultLogger()
@@ -540,6 +785,9 @@ class Window:
 
     def on_closing(self):
         # if messagebox.askokcancel("退出", "你想要退出吗?"):
+
+        if self.connection:
+            self.connection.disconnect()
 
         width = self.root.winfo_width()
         height = self.root.winfo_height()
@@ -576,6 +824,15 @@ class Window:
         popup = PopupWindow(self.root, "Memory Info")
         popup.set_text(info)
 
+    def connect_by_adb(self, target_info, result_info : tk.StringVar):
+        self.connection = AdbConnection(**target_info)
+        result_info.set(f'连接状态 : {self.connection.get_connection_info()}')
+
+    def connect_by_socket(self, target_info, result_info : tk.StringVar):
+        
+        self.connection = SocketConnection(target_info)
+        result_info.set(f'连接状态 : {self.connection.get_connection_info()}')
+        
     def create_window_frame(self):
         self.root.title("Utility")
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
@@ -590,15 +847,46 @@ class Window:
             }
 
         grid_minsize = (100, 50)
-        grid_pad = 5
+        grid_pad = 6
+        
 
         # 设置窗口大小
         self.root.geometry(self.config.get("window_rect", "800x600+1000+550"))
 
+        ########### device info
+        
+        info_frame_pad = 6
+        top_frame = Frame(self.root)
+        top_frame.pack(side=tk.TOP, fill=tk.X)
+        top_frame.columnconfigure([0, 1, 2, 3, 4, 5], weight=1, minsize=grid_minsize[0], pad=grid_pad)
+        top_frame.rowconfigure([0], weight=1, minsize=grid_minsize[1], pad=grid_pad)
+
+        grid_column = 0
+        self.device_info = tk.StringVar()
+        button_connect = Button(master=top_frame, text="连接adb", command=lambda : self.connect_by_adb(self.connect_info, self.device_info), **style)
+        button_connect.grid(row=0, column=grid_column, sticky="nsew", padx=info_frame_pad, pady=info_frame_pad)
+        grid_column += 1
+
+        combo_connecion_ip = Combobox(top_frame, values=["10.0.210.173", "10.0.210.25", "10.0.210.27"], justify='right', name='combo_connecion_ip')
+        combo_connecion_ip.grid(row=0, column=grid_column, sticky="nsew", padx=info_frame_pad, pady=info_frame_pad)
+        combo_connecion_ip.current(0)
+        grid_column += 1
+
+        button_connect_socket = Button(master=top_frame, text="连接socket", command=lambda : self.connect_by_socket(combo_connecion_ip.get(), self.device_info), **style)
+        button_connect_socket.grid(row=0, column=grid_column, sticky="nsew", padx=info_frame_pad, pady=info_frame_pad)
+        grid_column += 1
+
+        lable_device = Label(top_frame, textvariable=self.device_info)
+        lable_device.grid(row=0, column=grid_column, sticky="nsew", padx=info_frame_pad, pady=info_frame_pad)
+
+        self.connect_by_adb(self.connect_info, self.device_info)
+        
+        ############## 
+
         self.notebook = Notebook(self.root)
         self.notebook.bind("<<NotebookTabChanged>>", self.on_tab_change)
 
-        self.notebook.pack(side=tk.TOP, fill=tk.X, expand=True)
+        self.notebook.pack(fill=tk.BOTH, expand=True)
 
         # log widget
         bottom_frame = Frame(self.root)
@@ -649,8 +937,22 @@ class Window:
         current_row, current_column = self.setup_grid_layout(Entry(tab1, textvariable=send_lua_file_var), current_row, current_column, columnspan=4)
 
         on_send_lua_command = lambda : (self.connection.send_file_to_pck(send_lua_file_var.get()), self.config.update('send_lua_file', send_lua_file_var.get()))
-        button_send_lua_file = Button(tab1, text="send lua file", command=on_send_lua_command)
+        button_send_lua_file = Button(tab1, text="send lua file", command=on_send_lua_command, **style)
         current_row, current_column = self.setup_grid_layout(button_send_lua_file, current_row, current_column)
+
+        button_remove_lua_files = Button(tab1, text="remove lua file", command=lambda : self.connection.remove_lua_file(send_lua_file_var.get()), **style)
+        current_row, current_column = self.setup_grid_layout(button_remove_lua_files, current_row, current_column)
+
+        current_row, current_column = current_row + 1, 0
+
+        button_create_config_pak = Button(tab1, text="create config pak (to paks)", command=lambda : self.connection.create_config_pak_and_push_to_device(), **style)
+        current_row, current_column = self.setup_grid_layout(button_create_config_pak, current_row, current_column)
+        
+        button_create_config_pck = Button(tab1, text="create config pak (to pck)", command=lambda : self.connection.create_config_pak_and_push_to_device(to_paks_or_pck=False), **style)
+        current_row, current_column = self.setup_grid_layout(button_create_config_pck, current_row, current_column)
+
+        button_remove_config_pak = Button(tab1, text="remove config pak", command=lambda : self.connection.remove_config_pak(), **style)
+        current_row, current_column = self.setup_grid_layout(button_remove_config_pak, current_row, current_column)
 
         ############# tab 2 ###############
         
@@ -708,14 +1010,6 @@ class Window:
         button_stat_canvas = Button(tab2, text="stat canvas", command=lambda : self.connection.console_command("stat canvas"), **style)
         current_row, current_column = self.setup_grid_layout(button_stat_canvas, current_row, current_column)
 
-
-        current_row, current_column = current_row + 1, 0
-        button_dump_memory = Button(tab2, text="dump memory", command=lambda : self.connection.dump_memory_info(), **style)
-        current_row, current_column = self.setup_grid_layout(button_dump_memory, current_row, current_column)
-
-        button_get_adb_memeory = Button(tab2, text="get adb meminfo", command=lambda : self.show_memory_info(), **style)
-        current_row, current_column = self.setup_grid_layout(button_get_adb_memeory, current_row, current_column)
-
         button_stat_LLM = Button(tab2, text="stat LLM", command=lambda : self.connection.console_command("stat LLM"), **style)
         current_row, current_column = self.setup_grid_layout(button_stat_LLM, current_row, current_column)
 
@@ -729,11 +1023,22 @@ class Window:
         current_row, current_column = self.setup_grid_layout(button_stat_slg, current_row, current_column)
 
         current_row, current_column = current_row + 1, 0
+        button_dump_memory = Button(tab2, text="dump memory", command=lambda : self.connection.dump_memory_info(), **style)
+        current_row, current_column = self.setup_grid_layout(button_dump_memory, current_row, current_column)
+
+        button_get_adb_memeory = Button(tab2, text="get adb meminfo", command=lambda : self.show_memory_info(), **style)
+        current_row, current_column = self.setup_grid_layout(button_get_adb_memeory, current_row, current_column)
+
         button_toggle_rendering = Button(tab2, text="toggle rendering", command=lambda : self.connection.toggle_flag("ShowFlag.Rendering"), **style)
         current_row, current_column = self.setup_grid_layout(button_toggle_rendering, current_row, current_column)
 
         button_freeze_frame = Button(tab2, text="freeze frame", command=lambda : self.connection.console_command("FreezeFrame"), **style)
         current_row, current_column = self.setup_grid_layout(button_freeze_frame, current_row, current_column)
+
+        button_toggle_planner_reflection = Button(tab2, text="toggle planner reflection", command=lambda : self.connection.toggle_flag("r.PlanarReflectionQuality"), **style)
+        current_row, current_column = self.setup_grid_layout(button_toggle_planner_reflection, current_row, current_column)
+
+        current_row, current_column = current_row + 1, 0
 
         button_show_postprocess = Button(tab2, text="show postprocess", command=lambda : self.connection.toggle_flag("ShowFlag.PostProcessing"), **style)
         current_row, current_column = self.setup_grid_layout(button_show_postprocess, current_row, current_column)
@@ -750,11 +1055,18 @@ class Window:
         button_show_transparency = Button(tab2, text="show transparency", command=lambda : self.connection.toggle_flag("ShowFlag.Translucency"), **style)
         current_row, current_column = self.setup_grid_layout(button_show_transparency, current_row, current_column)
 
+        
+        button_show_particles = Button(tab2, text="show particles", command=lambda : self.connection.toggle_flag("ShowFlag.Particles"), **style)
+        current_row, current_column = self.setup_grid_layout(button_show_particles, current_row, current_column)
+
+        button_show_Niagara = Button(tab2, text="show Niagara", command=lambda : self.connection.toggle_flag("ShowFlag.Niagara"), **style)
+        current_row, current_column = self.setup_grid_layout(button_show_Niagara, current_row, current_column)
+
         current_row, current_column = current_row + 1, 0
 
         lable = Label(tab2, text="scale factor")
         current_row, current_column = self.setup_grid_layout(lable, current_row, current_column)
-        combo_scale_factor = Combobox(tab2, values=["1.25", "1.0", "1.5", '0', "0.8", "0.9"], justify='right', name='content_scale_factor')        
+        combo_scale_factor = Combobox(tab2, values=["1.25", "1.0", "1.1", "1.5", '0', "0.8", "0.9"], justify='right', name='content_scale_factor')        
         current_row, current_column = self.setup_grid_layout(combo_scale_factor, current_row, current_column)
         helper = ComboHelper(combo_scale_factor, func=lambda x: self.connection.console_command(f"r.MobileContentScaleFactor {x}"), config=self.config)
         combo_scale_factor.bind("<<ComboboxSelected>>", helper)
@@ -767,15 +1079,14 @@ class Window:
         helper = ComboHelper(combo_screen_percentage, func=lambda x: self.connection.console_command(f"r.ScreenPercentage {x}"), config=self.config)
         combo_screen_percentage.bind("<<ComboboxSelected>>", helper)
         combo_screen_percentage.bind('<Return>', helper)
-
-        button_show_particles = Button(tab2, text="show particles", command=lambda : self.connection.toggle_flag("ShowFlag.Particles"), **style)
-        current_row, current_column = self.setup_grid_layout(button_show_particles, current_row, current_column)
-
-        button_show_Niagara = Button(tab2, text="show Niagara", command=lambda : self.connection.toggle_flag("ShowFlag.Niagara"), **style)
-        current_row, current_column = self.setup_grid_layout(button_show_Niagara, current_row, current_column)
         
-        button_toggle_planner_reflection = Button(tab2, text="toggle planner reflection", command=lambda : self.connection.toggle_flag("r.PlanarReflectionQuality"), **style)
-        current_row, current_column = self.setup_grid_layout(button_toggle_planner_reflection, current_row, current_column)
+        lable = Label(tab2, text="set fps")
+        current_row, current_column = self.setup_grid_layout(lable, current_row, current_column)
+        combo_max_fps = Combobox(tab2, values=["30", "60"], justify='right', name='max_fps')
+        current_row, current_column = self.setup_grid_layout(combo_max_fps, current_row, current_column)
+        helper = ComboHelper(combo_max_fps, func=lambda x: self.connection.console_command(f"t.maxfps {x}"), config=self.config)
+        combo_max_fps.bind("<<ComboboxSelected>>", helper)
+        combo_max_fps.bind('<Return>', helper)
 
         # button_set_near_plane = Button(tab2, text="set near plane", command=lambda : self.connection.console_command("r.SetNearClipPlane 100"))
         # current_row, current_column = self.setup_grid_layout(button_set_near_plane, current_row, current_column)
@@ -794,19 +1105,32 @@ class Window:
         current_row, current_column = self.setup_grid_layout(button_clear_fog, current_row, current_column)
 
         current_row, current_column = current_row + 1, 0
-        
-        command_var = tk.StringVar()
-        command_var.set(self.config.get('last_command', ''))
-        input_command = Entry(tab2, textvariable=command_var)
-        current_row, current_column = self.setup_grid_layout(input_command, current_row, current_column, columnspan=4)
 
-        on_send_command = lambda : (self.connection.console_command(input_command.get()), self.config.update('last_command', input_command.get()))
-        button_send_command = Button(tab2, text="send cmd", command=on_send_command)
-        current_row, current_column = self.setup_grid_layout(button_send_command, current_row, current_column)
+        # s import "FlibPakHelper".MountPak(import "BlueprintPathsLibrary".ProjectSavedDir().."/xxx/xxx.pak", 0, "")
+        
+        lable = Label(tab2, text="other command")
+        current_row, current_column = self.setup_grid_layout(lable, current_row, current_column)
+        combo_other_command = Combobox(tab2, values=["r.RHIThread.Enable 0", "r.RHIThread.Enable 1", "r.ForceLOD 2", "r.ForceLOD -1", "tiny.DensityScale 0.5",
+                                                     "dp.Override Android_ExtremeLow", "dp.Reload", "dp.ShowActiveProfile", "r.Mobile.EnableMovableSpotlightsMutable",
+                                                     "ExecMountPak ../../../BeyondStar/Saved/pck/config_p.pak 0"], 
+                                                     justify='left', name='other_command')
+        current_row, current_column = self.setup_grid_layout(combo_other_command, current_row, current_column, columnspan=3)
+        helper = ComboHelper(combo_other_command, func=lambda x: self.connection.console_command(x), config=self.config)
+        combo_other_command.bind("<<ComboboxSelected>>", helper)
+        combo_other_command.bind('<Return>', helper)
+
+        # command_var = tk.StringVar()
+        # command_var.set(self.config.get('last_command', ''))
+        # input_command = Entry(tab2, textvariable=command_var)
+        # current_row, current_column = self.setup_grid_layout(input_command, current_row, current_column, columnspan=4)
+
+        # on_send_command = lambda : (self.connection.console_command(input_command.get()), self.config.update('last_command', input_command.get()))
+        # button_send_command = Button(tab2, text="send cmd", command=on_send_command)
+        # current_row, current_column = self.setup_grid_layout(button_send_command, current_row, current_column)
         
         current_row, current_column = current_row + 1, 0
         combo_ue_commandline = Combobox(tab2)                                                           # onethread
-        combo_ue_commandline['values'] = ('-tracehost=127.0.0.1 -trace=CPU,RHICommands,RenderCommands,Slate,Animation,Bookmark,Frame,GPU', '-LLM', '-noperfthreads', '-ExecCmds=\"\"')
+        combo_ue_commandline['values'] = ('-tracehost=127.0.0.1 -trace=CPU,RHICommands,RenderCommands,Slate,Animation,Bookmark,Frame,GPU', '-LLM', '-noperfthreads', '-ONETHREAD', '-ExecCmds=\"\"')
 
         saved_index = max(self.config.get('ue_commandline', 0), 0)
         combo_ue_commandline.current(saved_index)
@@ -896,11 +1220,17 @@ def MainFrame():
     # connecton = AdbConnection(r"D:\dev\UINiagara\build\Android_ASTC\MyProject-Android-Debug-arm64.apk", 
     #                         project_name="MyProject", package_name="com.tencent.test")
 
-    connecton = AdbConnection(r"D:\ka1_client\build\Android_ASTC\BeyondStar-arm64.apk", project_name="BeyondStar")
+    # connecton = AdbConnection(r"D:\ka1_client\build\Android_ASTC\BeyondStar-arm64.apk", project_name="BeyondStar")
+    # connecton.connect_adb()
 
-    connecton.connect_adb()
+    connect_info = {
+        'apk_path' : r"D:\ka1_client\build\Android_ASTC\BeyondStar-arm64.apk", 
+        'project_name' : "BeyondStar", 
+        'port' : ""
+    }
 
-    main_window = Window(connecton)
+
+    main_window = Window(connect_info)
     main_window.Main()
 
 

@@ -1,0 +1,14 @@
+
+*
+!*/
+
+!/profile/*
+!/unreal_script/
+!Utility.py
+!.gitignore
+
+!*.py
+
+*.pyc
+*.lua
+*.txt

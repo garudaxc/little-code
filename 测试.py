@@ -1,0 +1,3 @@
+print("sdfasf")
+
+input('...')
