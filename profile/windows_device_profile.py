@@ -1,28 +1,32 @@
+import os
 import subprocess
 import requests
 import re
 import json
 from lxml import etree
+import time
+import time
 
 rul = r"https://www.ludashi.com/rank/index.html"
 headers = ""
 
 
 
-def make_unique_gpu_list(gpu_rank_list):
+def make_unique_gpu_list(gpu_rank_list, keep_order=True):
     unique_list = list(set(gpu_rank_list))
     if len(unique_list) != len(gpu_rank_list):
         print(str(len(gpu_rank_list) - len(unique_list)), 'duplicated gpu in list')
 
-    gpu_index = []
-    for gpu_name in unique_list:
-        gpu_index.append((gpu_name, gpu_rank_list.index(gpu_name)))
+    if keep_order:
+        gpu_index = []
+        for gpu_name in unique_list:
+            gpu_index.append((gpu_name, gpu_rank_list.index(gpu_name)))
 
-    gpu_index.sort(key = lambda x : x[1])
+        gpu_index.sort(key = lambda x : x[1])
 
-    new_list = [item[0] for item in gpu_index]
+        unique_list = [item[0] for item in gpu_index]
 
-    return new_list
+    return unique_list
 
 
 def read_gpu_rank(file_path):
@@ -76,7 +80,7 @@ def read_gpu_rank(file_path):
     return gpu_rank_list
 
 
-def generate_gpu_rank():
+def generate_gpu_rank_ludashi():
 
     list_pc = read_gpu_rank(r"D:\小工具\profile\鲁大师天梯榜.html")
     list_laptop = read_gpu_rank(r"D:\小工具\profile\鲁大师榜单-笔记本.html")
@@ -93,6 +97,10 @@ def generate_gpu_rank():
     gpu_rank_list.reverse()
     print('total gpus ', len(gpu_rank_list))
 
+    #save to file
+    output_file = r"D:\小工具\profile\gpu_rank_list_ludashi.txt"
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write('\n'.join(gpu_rank_list))
     
     output_file = r"D:\小工具\unreal_script\pc_device_profile.txt"
     num_line = 0
@@ -112,5 +120,137 @@ def generate_gpu_rank():
     subprocess.run(['start', output_file], shell=True)
     
 
+
+class GPUInfoScraper:
+    def __init__(self):
+        self.url = r"https://www.techpowerup.com/gpu-specs/?workstation=No&sort=name"
+        self.headers = ""
+        self.request_time = time.time()
+
+
+    def batch_scrape(self, Manufacuturers, ReleaseYears):
+        
+        big_list = []
+        for Manufacuturer in Manufacuturers:
+            for ReleaseYear in ReleaseYears:
+                ReleaseYear = str(ReleaseYear)
+                gpu_rank_list = self.scrape_gpu_rank(Manufacuturer=Manufacuturer, ReleaseYear=ReleaseYear)
+                if gpu_rank_list:
+                    big_list.extend(gpu_rank_list)
+                else:
+                    print('scrape failed ', Manufacuturer, ReleaseYear)
+
+        big_list = make_unique_gpu_list(big_list)
+        big_list.sort()
+
+        #save to file
+        time_string = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
+        with open(f"D:\小工具\profile\gpu_rank_list_{time_string}.txt", 'w', encoding='utf-8') as f:
+            f.write('\n'.join(big_list))
+
+        print('total gpus ', len(big_list))
+
+    def scrape_gpu_rank(self, use_cache=True, Manufacuturer=None, ReleaseYear=None, time_interval=3):
+
+        html_text = None
+
+        #read from cache file
+        cache_file = r"D:\小工具\profile\cache\gpu_rank_cache%s%s.html" % ("_" + Manufacuturer if Manufacuturer else "", "_" + ReleaseYear if ReleaseYear else "")
+
+        if use_cache and os.path.exists(cache_file):
+            with open(cache_file, 'r', encoding='utf-8') as f:
+                html_text = f.read()
+        else:
+            url = self.url
+            if Manufacuturer:
+                url += f"&mfgr={Manufacuturer}"
+
+            if ReleaseYear:
+                url += f"&released={ReleaseYear}"
+
+            while time.time() - self.request_time < time_interval:
+                time.sleep(1)
+            resp = requests.get(url=url, headers=self.headers)
+            resp.close()
+            self.request_time = time.time()
+            if use_cache and resp.status_code == 200:
+                os.remove(cache_file) if os.path.exists(cache_file) else None
+                with open(cache_file, 'w', encoding='utf-8') as f:
+                    f.write(resp.text)
+                
+                html_text = resp.text
+            else:
+                print('request failed')
+                return
+
+        # print('response ', len(resp.text))
+        etree_html = etree.HTML(html_text)
+        table_node = etree_html.xpath("//table[@class='processors']")[0]
+        # print(table_node, len(table_node), table_node.tag)
+
+        gpu_rank_list = []
+        for tr_node in table_node.iterfind('./tr'):
+            gpu_inof_nodes = tr_node.xpath("./td[1]/a")
+            if len(gpu_inof_nodes) == 0:
+                print('no gpu info')
+                continue
+            td_node = gpu_inof_nodes[0]
+            gpu_rank_list.append(td_node.text)
+        
+        gpu_rank_list = make_unique_gpu_list(gpu_rank_list)
+        print('total gpus ', len(gpu_rank_list), gpu_rank_list[:5])
+
+        return gpu_rank_list
+
+
+
+def scrape_gpu_rank_from_TechPowerUp():
+
+    scraper = GPUInfoScraper()
+
+    # scraper.batch_scrape(Manufacuturers=['NVIDIA', 'AMD', 'Intel'], ReleaseYears=range(2010, 2026))
+    scraper.batch_scrape(Manufacuturers=['ATI'], ReleaseYears=range(2010, 2014))
+
+
+    #save to file
+
+def read_list_from_file(file_name):
+    with open(file_name, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+        lines = [line.strip() for line in lines if line.strip() != '']
+
+        return lines
+
+
+def cross_validate_gpu_rank():
+
+    file_name_steam = r"D:\小工具\profile\GPU_name_steam.txt"
+    gpu_list_steam = read_list_from_file(file_name_steam)
+    
+    gpu_list_ludashi = read_list_from_file(r"D:\小工具\profile\gpu_rank_list_ludashi.txt")
+
+    gpu_list_techpowerup = read_list_from_file(r"D:\小工具\profile\gpu_rank_list.txt")
+
+    count = 0
+    for gpu_name in gpu_list_steam:
+        if gpu_name not in gpu_list_ludashi:
+            count += 1
+            print('steam not in ludashi', gpu_name)
+
+        # if gpu_name not in gpu_list_techpowerup:
+        #     print('steam not in techpowerup', gpu_name)
+
+    print('total gpu in steam ', len(gpu_list_steam), 'not in ludashi ', count)
+
+    count = 0
+    for gpu_name in gpu_list_steam:
+        if gpu_name not in gpu_list_techpowerup:
+            count += 1
+            print('steam not in techpowerup', gpu_name)
+
+    print('total gpu in steam ', len(gpu_list_steam), 'not in techpowerup ', count)
+
+
 if __name__ == "__main__":
-    generate_gpu_rank()
+    # generate_gpu_rank()
+    cross_validate_gpu_rank()
