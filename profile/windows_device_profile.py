@@ -128,11 +128,10 @@ class GPUInfoScraper:
         self.request_time = time.time()
 
 
-    def batch_scrape(self, Manufacuturers, ReleaseYears):
+    def batch_scrape(self, condition_list):
         
         big_list = []
-        for Manufacuturer in Manufacuturers:
-            for ReleaseYear in ReleaseYears:
+        for Manufacuturer, ReleaseYear in condition_list:
                 ReleaseYear = str(ReleaseYear)
                 gpu_rank_list = self.scrape_gpu_rank(Manufacuturer=Manufacuturer, ReleaseYear=ReleaseYear)
                 if gpu_rank_list:
@@ -144,9 +143,9 @@ class GPUInfoScraper:
         big_list.sort()
 
         #save to file
-        time_string = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
-        with open(f"D:\小工具\profile\gpu_rank_list_{time_string}.txt", 'w', encoding='utf-8') as f:
-            f.write('\n'.join(big_list))
+        # time_string = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
+        # with open(f"D:\小工具\profile\gpu_rank_list_{time_string}.txt", 'w', encoding='utf-8') as f:
+        #     f.write('\n'.join(big_list))
 
         print('total gpus ', len(big_list))
 
@@ -155,7 +154,7 @@ class GPUInfoScraper:
         html_text = None
 
         #read from cache file
-        cache_file = r"D:\小工具\profile\cache\gpu_rank_cache%s%s.html" % ("_" + Manufacuturer if Manufacuturer else "", "_" + ReleaseYear if ReleaseYear else "")
+        cache_file = "D:\小工具\profile\cache\gpu_rank_cache%s%s.html" % ("_" + Manufacuturer if Manufacuturer else "", "_" + ReleaseYear if ReleaseYear else "")
 
         if use_cache and os.path.exists(cache_file):
             with open(cache_file, 'r', encoding='utf-8') as f:
@@ -190,11 +189,17 @@ class GPUInfoScraper:
 
         gpu_rank_list = []
         for tr_node in table_node.iterfind('./tr'):
-            gpu_inof_nodes = tr_node.xpath("./td[1]/a")
-            if len(gpu_inof_nodes) == 0:
+            td_node = tr_node.find("./td[1]")[0]
+            assert td_node
+            vender = td_node.get('class')
+            assert vender != '' and vender is not None
+            print(vender)
+
+            gpu_info_nodes = tr_node.xpath("./td[1]/a")
+            if len(gpu_info_nodes) == 0:
                 print('no gpu info')
                 continue
-            td_node = gpu_inof_nodes[0]
+            td_node = gpu_info_nodes[0]
             gpu_rank_list.append(td_node.text)
         
         gpu_rank_list = make_unique_gpu_list(gpu_rank_list)
@@ -208,8 +213,16 @@ def scrape_gpu_rank_from_TechPowerUp():
 
     scraper = GPUInfoScraper()
 
-    # scraper.batch_scrape(Manufacuturers=['NVIDIA', 'AMD', 'Intel'], ReleaseYears=range(2010, 2026))
-    scraper.batch_scrape(Manufacuturers=['ATI'], ReleaseYears=range(2010, 2014))
+    contdition_list = []
+    for Manufacuturer in ['NVIDIA', 'AMD', 'Intel']:
+        for ReleaseYear in range(2010, 2026):
+            contdition_list.append((Manufacuturer, ReleaseYear))
+
+    for ReleaseYear in range(2010, 2014):
+        contdition_list.append(('ATI', ReleaseYear))
+
+    scraper.scrape_gpu_rank(use_cache=True, Manufacuturer='NVIDIA', ReleaseYear=2010)
+    # scraper.batch_scrape(contdition_list)
 
 
     #save to file
@@ -253,4 +266,5 @@ def cross_validate_gpu_rank():
 
 if __name__ == "__main__":
     # generate_gpu_rank()
-    cross_validate_gpu_rank()
+    # cross_validate_gpu_rank()
+    scrape_gpu_rank_from_TechPowerUp()
