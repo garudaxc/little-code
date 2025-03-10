@@ -1,0 +1,1073 @@
+NVIDIA GeForce RTX 5090
+NVIDIA GeForce RTX 4090
+NVIDIA GeForce RTX 5080
+AMD Radeon RX 7900 XTX
+NVIDIA GeForce RTX 4080 Super
+AMD Radeon RX 9070 XT
+NVIDIA GeForce RTX 4080
+NVIDIA GeForce RTX 5070 Ti
+Nvidia GeForce RTX 5090 Laptop
+AMD Radeon RX 9070
+NVIDIA GeForce RTX 3090 Ti
+NVIDIA GeForce RTX 5070
+NVIDIA GeForce RTX 4070 Ti SUPER
+AMD Radeon RX 7900 XT
+Nvidia GeForce RTX 5080 Laptop
+NVIDIA GeForce RTX 4070 Ti
+AMD Radeon RX 7900 GRE
+AMD Radeon RX 6950 XT
+NVIDIA GeForce RTX 5060 Ti
+NVIDIA GeForce RTX 4090 Laptop GPU
+NVIDIA RTX 5000 Ada Generation Laptop GPU
+NVIDIA GeForce RTX 3090
+NVIDIA GeForce RTX 3080 Ti
+AMD Radeon RX 7800 XT
+NVIDIA GeForce RTX 4070 SUPER
+4x NVIDIA RTX A6000
+NVIDIA RTX A6000
+AMD Radeon RX 7900M
+AMD Radeon RX 6900 XT
+NVIDIA GeForce RTX 4080 Laptop GPU
+NVIDIA GeForce RTX 5060
+NVIDIA RTX 4000 Ada Generation Laptop GPU
+NVIDIA GeForce RTX 3080 12 GB
+NVIDIA RTX 6000 Ada Generation
+Nvidia GeForce RTX 5070 Ti Laptop
+NVIDIA GeForce RTX 3080
+NVIDIA GeForce RTX 4070
+NVIDIA RTX 3500 Ada Generation Laptop GPU
+AMD Radeon Pro W6800
+AMD Radeon RX 6800 XT
+AMD Radeon RX 6800
+AMD Radeon RX 7700 XT
+NVIDIA Titan RTX
+Nvidia GeForce RTX 5070 Laptop
+NVIDIA GeForce RTX 3070 Ti
+NVIDIA GeForce RTX 4060 Ti 16G
+NVIDIA GeForce RTX 4060 Ti 8G
+NVIDIA GeForce RTX 3080 Ti Laptop GPU
+Apple M4 Max 40-Core GPU
+NVIDIA GeForce RTX 4070 Laptop GPU
+NVIDIA RTX 3000 Ada Generation Laptop GPU
+NVIDIA RTX A5500 Laptop GPU
+NVIDIA GeForce RTX 3070
+AMD Radeon RX 6750 XT
+NVIDIA GeForce RTX 2080 Ti
+AMD Radeon RX 6700 XT
+NVIDIA GeForce RTX 3080 Laptop GPU
+NVIDIA GeForce RTX 3060 Ti
+Intel Arc B580
+Intel Arc A770
+NVIDIA GeForce RTX 4060
+AMD Radeon RX 7600
+AMD Radeon RX 6850M XT
+NVIDIA GeForce RTX 3070 Ti Laptop GPU
+NVIDIA RTX A4500 Laptop GPU
+NVIDIA RTX A5000 Laptop GPU
+NVIDIA GeForce RTX 4060 Laptop GPU
+NVIDIA RTX 2000 Ada Generation Laptop GPU
+NVIDIA GeForce RTX 2080 Super
+NVIDIA Quadro RTX 6000 (Laptop)
+AMD Radeon RX 6800M
+AMD Radeon RX 6650 XT
+AMD Radeon RX 6600 XT
+NVIDIA GeForce RTX 2080
+NVIDIA GeForce RTX 2080 Super Mobile
+NVIDIA GeForce RTX 3070 Laptop GPU
+NVIDIA RTX A4000 Laptop GPU
+AMD Radeon RX 6800S
+Nvidia GeForce RTX 5060 Laptop
+AMD Radeon RX 7600M XT
+Intel Arc A750
+NVIDIA GeForce RTX 3060
+AMD Radeon RX 7700S
+NVIDIA GeForce RTX 3080 Max-Q
+AMD Radeon R9 390X2
+Apple M3 Max 40-Core GPU
+Apple M2 Max 38-Core GPU
+NVIDIA GeForce RTX 2080 Mobile
+AMD Radeon RX 6700M
+NVIDIA GeForce GTX 1080 Ti
+NVIDIA Titan X Pascal
+NVIDIA GeForce GTX 1080 SLI (Laptop)
+NVIDIA GeForce GTX 1070 SLI
+AMD Radeon RX 8060S
+NVIDIA GeForce GTX 1070 SLI (Laptop)
+NVIDIA GeForce RTX 2070 Super
+Apple M3 Max 30-Core GPU
+NVIDIA Quadro RTX 5000 (Laptop)
+AMD Radeon VII
+AMD Radeon RX 5700 XT
+NVIDIA GeForce RTX 2070
+AMD Radeon RX 7600M
+NVIDIA GeForce RTX 3070 Max-Q
+Apple M4 Max 32-Core GPU
+Apple M2 Max 30-Core GPU
+NVIDIA GeForce RTX 3060 Laptop GPU
+Apple M1 Max 32-Core GPU
+AMD Radeon RX 7600S
+NVIDIA GeForce RTX 2070 Super Mobile
+NVIDIA GeForce GTX 1080
+NVIDIA GeForce RTX 2080 Super Max-Q
+NVIDIA RTX A3000 Laptop GPU
+Apple M1 Max 24-Core GPU
+Intel Arc A580
+NVIDIA GeForce RTX 2060 Super
+Intel Arc A770M
+AMD Radeon RX 6600
+AMD Radeon RX 6650M XT
+Apple M3 Pro 18-Core GPU
+Apple M2 Pro 19-Core GPU
+AMD Radeon RX 5700
+AMD Radeon RX 6650M
+AMD Radeon RX 6600M
+AMD Radeon RX 6700S
+NVIDIA GeForce RTX 2070 Mobile
+NVIDIA Quadro RTX 5000 Max-Q
+NVIDIA GeForce RTX 2080 Max-Q
+NVIDIA GeForce RTX 2060
+Apple M4 Pro 20-Core GPU
+AMD Radeon RX 8050S
+AMD Radeon RX 5700M
+AMD Radeon RX Vega 64
+NVIDIA GeForce GTX 1080 Mobile
+NVIDIA Quadro RTX 4000 (Laptop)
+NVIDIA GeForce RTX 3060 Max-Q
+Apple M3 Pro 14-Core GPU
+Apple M2 Pro 16-Core GPU
+Apple M1 Pro 16-Core GPU
+AMD Radeon PRO W6600M
+NVIDIA GeForce RTX 2070 Super Max-Q
+NVIDIA Quadro RTX 4000 Max-Q
+NVIDIA GeForce GTX 1070 Ti
+Apple M1 Pro 14-Core GPU
+NVIDIA GeForce RTX 2070 Max-Q
+AMD Radeon RX Vega 56
+NVIDIA GeForce GTX 980 SLI (Laptop)
+AMD Radeon RX 6600S
+NVIDIA Quadro P5200
+NVIDIA Quadro RTX 3000 (Laptop)
+Nvidia GeForce RTX 5050 Laptop
+NVIDIA GeForce RTX 2060 Mobile
+NVIDIA GeForce RTX 3050
+NVIDIA GeForce GTX 1070
+AMD Radeon RX 5600 XT
+NVIDIA Quadro RTX 3000 Max-Q
+NVIDIA GeForce GTX 1080 Max-Q
+AMD Radeon Pro Vega 56
+NVIDIA GeForce GTX 1070 Mobile
+NVIDIA GeForce RTX 2060 Max-Q
+NVIDIA Quadro P4200
+NVIDIA GeForce GTX 1660 Ti
+NVIDIA GeForce GTX 1660 Super
+Nvidia RTX A2000
+AMD Radeon RX 6500 XT
+AMD Radeon RX 5500 XT
+NVIDIA GeForce RTX 4050 Laptop GPU
+Nvidia RTX 1000 Ada Generation Laptop GPU
+NVIDIA RTX A2000 Laptop GPU
+Intel Arc A730M
+AMD Radeon RX 8040S
+AMD Radeon Pro 5600M
+AMD Radeon RX 5600M
+NVIDIA Quadro P5000
+Apple M4 Pro 16-Core GPU
+NVIDIA GeForce GTX 1660 Ti Mobile
+NVIDIA GeForce RTX 3050 Ti Laptop GPU
+NVIDIA GeForce RTX 3050 6GB Laptop GPU
+Intel Arc A570M
+NVIDIA RTX A1000 Laptop GPU
+NVIDIA GeForce GTX 980 Ti
+NVIDIA GeForce GTX 1660
+NVIDIA GeForce GTX 1070 Max-Q
+Intel Arc Graphics 140T
+Intel Arc A550M
+NVIDIA GeForce GTX 1650 Super
+NVIDIA Quadro P5000 Max-Q
+NVIDIA GeForce GTX 980M SLI
+AMD Radeon 890M
+AMD Radeon R9 Fury
+AMD Radeon R9 Nano
+NVIDIA GeForce GTX 980
+Intel Arc Graphics 130T
+NVIDIA GeForce RTX 3050 A Laptop GPU
+NVIDIA GeForce RTX 3050 4GB Laptop GPU
+Nvidia RTX 500 Ada Generation Laptop GPU
+Intel Arc A530M
+NVIDIA GeForce GTX 1660 Ti Max-Q
+NVIDIA RTX A500 Laptop GPU
+AMD Radeon RX 6550M
+AMD Radeon RX 6500M
+AMD Radeon RX 6550S
+AMD Radeon RX 590
+AMD Radeon RX 580
+NVIDIA GeForce GTX 980 (Laptop)
+NVIDIA Quadro M5500
+AMD Radeon R9 390X
+NVIDIA GeForce GTX 970M SLI
+NVIDIA GeForce GTX 1060
+AMD Radeon RX 570
+NVIDIA Quadro P4000
+NVIDIA Quadro T2000 (Laptop)
+AMD Radeon RX 480
+NVIDIA GeForce GTX 1060 Mobile
+Apple M4 10-core GPU
+NVIDIA GeForce GTX 1650 Ti Mobile
+Intel Arc A370M
+AMD Radeon RX 5500M
+AMD Radeon Pro 5500M
+NVIDIA Quadro P4000 Max-Q
+NVIDIA Quadro P3200
+AMD Radeon RX 580X (Laptop)
+AMD Radeon RX 580 (Laptop)
+AMD Radeon RX 6450M
+Intel Arc 8-Core iGPU
+NVIDIA GeForce GTX 780 Ti
+AMD Radeon RX Vega Mobile
+NVIDIA GeForce RTX 2050 Mobile
+Intel Arc Graphics 140V
+AMD Radeon RX 6300M
+NVIDIA GeForce GTX 1650
+NVIDIA GeForce GTX 1650 Mobile
+NVIDIA GeForce MX570
+Intel Arc A380
+AMD Radeon Pro 5300M
+AMD Radeon RX 5300M
+NVIDIA Quadro P3000
+NVIDIA GeForce GTX 970
+NVIDIA GeForce GTX 1060 Max-Q
+NVIDIA Quadro P3000 Max-Q
+NVIDIA GeForce GTX 1650 Ti Max-Q
+NVIDIA Quadro T2000 Max-Q
+AMD Radeon RX 480 (Laptop)
+NVIDIA Quadro T1000 (Laptop)
+Intel Arc Graphics 130V
+AMD Radeon Pro WX 7100
+Intel Arc 7-Core iGPU
+AMD Radeon RX 470
+AMD Radeon RX 570X (Laptop)
+Apple M4 8-core GPU
+AMD Radeon RX 570 (Laptop)
+AMD Radeon RX 470 (Laptop)
+NVIDIA GeForce GTX 1650 Max-Q
+NVIDIA T1000
+NVIDIA T1200 Laptop GPU
+NVIDIA Quadro T1000 Max-Q
+Intel Arc A310
+Intel Arc A350M
+NVIDIA T600 Laptop GPU
+NVIDIA T550 Laptop GPU
+NVIDIA GeForce GTX 880M SLI
+NVIDIA GeForce GTX 780M SLI
+AMD Radeon R9 290X
+AMD Radeon RX 490M
+NVIDIA GeForce GTX 965M SLI
+AMD Radeon R9 M290X Crossfire
+AMD Radeon HD 8970M Crossfire
+NVIDIA GeForce GTX 680M SLI
+AMD Radeon HD 7970M Crossfire
+NVIDIA GeForce GTX 980M
+AMD Radeon RX Vega M GH
+NVIDIA Quadro M5000M
+AMD Radeon Pro Vega 20
+AMD Radeon 880M
+Qualcomm Adreno 830
+Qualcomm SD X Adreno X1-85 4.6 TFLOPS
+AMD Radeon 780M
+Apple M3 10-Core GPU
+AMD Radeon R9 280X
+AMD Radeon R9 380
+NVIDIA GeForce GTX 960
+NVIDIA GeForce MX550
+NVIDIA GeForce GTX 1050 Ti Mobile
+NVIDIA GeForce GTX 1050 Ti
+AMD Radeon 680M
+NVIDIA Quadro P2000
+NVIDIA Quadro P2000 Max-Q
+NVIDIA Quadro M4000M
+NVIDIA GeForce GTX 970M
+NVIDIA T500 Laptop GPU
+NVIDIA GeForce MX450
+NVIDIA GeForce GTX 860M SLI
+NVIDIA GeForce GTX 680
+AMD Radeon HD 7970
+NVIDIA GeForce GTX 770M SLI
+AMD Radeon R9 M395X
+NVIDIA GeForce GTX 1050 Ti Max-Q
+AMD Radeon Pro Vega 16
+AMD Radeon RX Vega M GL / 870
+AMD Radeon Pro WX Vega M GL
+AMD Radeon R9 M485X
+AMD Radeon R9 M295X
+AMD Radeon R9 M390X
+NVIDIA Quadro M3000M
+NVIDIA GeForce GTX 1050
+NVIDIA GeForce GTX 1050 Mobile
+AMD FirePro W7170M
+AMD Radeon R9 M395
+AMD Radeon R7 370
+NVIDIA GeForce GTX 590
+NVIDIA GeForce GTX 880M
+NVIDIA GeForce GTX 1050 Max-Q
+AMD Radeon 860M
+Apple M3 8-Core GPU
+Apple M2 10-Core GPU
+NVIDIA GeForce GTX 950
+NVIDIA T600
+AMD Radeon 760M
+Qualcomm SD X Adreno X1-85 3.8 TFLOPS
+AMD Radeon Steam Deck 8CU
+AMD Radeon 660M
+AMD Radeon R9 270X
+NVIDIA GeForce GTX 660 Ti
+NVIDIA GeForce GTX 760
+NVIDIA GeForce GTX 780M
+NVIDIA Quadro K5100M
+NVIDIA GeForce GTX 680MX
+AMD Radeon RX 460
+AMD Radeon Pro WX 4150
+AMD Radeon HD 7870
+NVIDIA GeForce GTX 965M
+AMD Radeon RX 560X (Laptop)
+AMD Radeon RX 560 (Laptop)
+NVIDIA Quadro M2200
+NVIDIA GeForce GTX 870M
+AMD Radeon R9 M290X
+AMD Radeon HD 8970M
+NVIDIA GeForce GTX 580
+AMD Radeon HD 6970
+NVIDIA GeForce GTX 675M SLI
+NVIDIA GeForce GTX 765M SLI
+AMD Radeon RX 460 (Laptop)
+NVIDIA GeForce GTX 680M
+NVIDIA GeForce GTX 775M
+NVIDIA Quadro P1000
+AMD Radeon R9 M390
+Intel Iris Xe MAX Graphics
+AMD FirePro M6100
+AMD Radeon HD 7970M
+AMD Radeon Pro 560X
+AMD Radeon Pro 560
+AMD Radeon Pro 460
+AMD Radeon Pro WX 4130
+Intel Iris Xe Graphics G7 96EUs
+NVIDIA GeForce MX350
+NVIDIA GeForce GTX 960M
+NVIDIA GeForce GTX 750 Ti
+NVIDIA GeForce GTX 670MX SLI
+NVIDIA GeForce GTX 570
+NVIDIA GeForce GTX 480
+NVIDIA Quadro M1200
+NVIDIA Quadro P620
+AMD Radeon RX 550X
+AMD Radeon RX 550 (Laptop)
+AMD Radeon RX 640
+AMD Radeon Pro WX 3200
+AMD Radeon Pro 555X
+AMD Radeon Pro 555
+AMD Radeon Pro 455
+NVIDIA GeForce GT 1030
+NVIDIA Quadro P600
+NVIDIA GeForce MX250
+NVIDIA GeForce MX330
+NVIDIA GeForce MX150
+Intel Arc Graphics 3-core GPU (Arrow Lake)
+Intel Iris Xe Graphics G7 80EUs
+AMD Radeon 840M
+AMD Radeon 740M
+Intel Graphics 4-Core iGPU (Arc)
+NVIDIA GeForce GT 710
+NVIDIA Quadro M2000M
+NVIDIA Quadro K5000M
+NVIDIA Quadro K4100M
+NVIDIA GeForce GTX 770M
+AMD Radeon RX 540X
+AMD Radeon Pro WX 2100
+AMD Radeon RX 540
+AMD Radeon Pro WX 3100
+NVIDIA GeForce GTX 860M
+Intel Arc Graphics 2-core GPU (Arrow Lake)
+NVIDIA GeForce GTX 580M SLI
+AMD Radeon HD 6990M Crossfire
+NVIDIA GeForce GT 755M SLI
+NVIDIA GeForce GTX 485M SLI
+AMD Radeon HD 6970M Crossfire
+NVIDIA GeForce GTX 675MX
+NVIDIA GeForce GT 750M SLI
+NVIDIA GeForce GTX 950M
+AMD Radeon Pro 450
+Qualcomm SD X Adreno X1-45 2.1 TFLOPS
+AMD Radeon 630
+AMD Radeon 540X
+AMD Radeon R9 M470X
+AMD Radeon R9 M385X
+NVIDIA Quadro P520
+NVIDIA GeForce GTX 850M
+NVIDIA Quadro M1000M
+NVIDIA Quadro M620
+AMD Radeon RX Vega 11
+AMD Radeon R9 M280X
+AMD Radeon HD 7950M
+NVIDIA GeForce GTX 560 Ti
+AMD Radeon HD 6870
+NVIDIA GeForce GTX 470
+NVIDIA GeForce 945M
+NVIDIA GeForce GTX 765M
+NVIDIA GeForce GTX 470M SLI
+NVIDIA GeForce GTX 480M SLI
+NVIDIA GeForce GTX 560M SLI
+NVIDIA Quadro K4000M
+NVIDIA Quadro P500
+Intel UHD Graphics 64EUs (Alder Lake 12th Gen)
+Intel Iris Plus Graphics G7 (Ice Lake 64 EU)
+AMD Radeon RX Vega 10
+Intel Iris Pro Graphics P580
+Intel Iris Pro Graphics 580
+ATI Radeon HD 5850
+NVIDIA GeForce GTX 675M
+Qualcomm SD X Adreno X1-45 1.7 TFLOPS
+NVIDIA GeForce GTX 580M
+AMD Radeon HD 6990M
+AMD Radeon R9 M470
+AMD Radeon R9 M385
+AMD Radeon R9 M380
+AMD Radeon HD 7770
+NVIDIA GeForce GT 650M SLI
+NVIDIA GeForce GTX 460M SLI
+ATI Mobility Radeon HD 5870 Crossfire
+NVIDIA GeForce GTX 485M
+NVIDIA GeForce GTX 460 768MB
+AMD Radeon HD 6790
+NVIDIA GeForce GTX 285M SLI
+NVIDIA Quadro K3100M
+AMD FirePro W5170M
+AMD Radeon R9 M370X
+NVIDIA GeForce GTX 670MX
+NVIDIA Quadro 5010M
+NVIDIA GeForce GTX 760M
+AMD Radeon R9 M275
+NVIDIA GeForce GTX 670M
+AMD Radeon RX Vega 9
+NVIDIA Maxwell GPU Surface Book
+AMD FirePro W5130M
+AMD FirePro M8900
+AMD Radeon HD 6970M
+AMD Radeon R9 M270
+AMD Radeon HD 8870M
+AMD Radeon HD 7870M
+NVIDIA Quadro K3000M
+NVIDIA GeForce GTX 570M
+Intel UHD Graphics Xe G4 48EUs
+Intel UHD Graphics Xe 32EUs (Tiger Lake-H)
+Intel UHD Graphics 770
+Intel UHD Graphics Xe 750 32EUs (Rocket Lake)
+AMD FirePro M6000
+AMD FirePro M5100
+NVIDIA GeForce MX230
+Apple M2 8-Core GPU
+Apple M1 8-Core GPU
+AMD Radeon RX Vega 8 (Ryzen 4000/5000)
+NVIDIA Quadro K2100M
+ATI Radeon HD 5770
+NVIDIA GeForce GTX 550 Ti
+NVIDIA GeForce GTX 280M SLI
+AMD Radeon HD 6950M
+AMD Radeon R7 250
+NVIDIA GeForce GT 755M
+Apple M1 7-Core GPU
+AMD Radeon RX Vega 7
+NVIDIA GeForce GTX 660M
+NVIDIA GeForce 845M
+AMD Radeon HD 8850M
+AMD Radeon R9 M365X
+AMD Radeon R9 M265X
+AMD Radeon HD 7850M
+AMD Radeon R7 M465
+AMD Radeon HD 8790M
+AMD FirePro W4170M
+AMD FirePro W4100
+ATI Mobility Radeon HD 4870 X2
+NVIDIA Quadro 4000M
+NVIDIA GeForce GTX 470M
+NVIDIA GeForce GTX 480M
+NVIDIA GeForce GT 750M
+Intel Iris Pro Graphics 6200
+NVIDIA GeForce MX130
+NVIDIA GeForce 940MX
+NVIDIA Quadro M520
+NVIDIA Quadro K1100M
+AMD Radeon RX Vega 8 (Ryzen 2000/3000)
+NVIDIA GeForce 940M
+Intel Iris Plus Graphics G4 (Ice Lake 48 EU)
+NVIDIA GeForce 930MX
+NVIDIA Quadro M600M
+AMD FirePro W4190M
+AMD Radeon R9 M375
+Intel Iris Plus Graphics 655
+AMD Radeon R7 M445
+AMD Radeon R7 M380
+AMD Radeon R7 M370
+NVIDIA GeForce GT 650M
+NVIDIA Quadro K620M
+NVIDIA Quadro M500M
+NVIDIA GeForce 840M
+AMD Radeon R7 M275DX
+NVIDIA GeForce GT 745M
+AMD Radeon HD 7770M
+NVIDIA GeForce GTX 560M
+AMD Radeon R7 512 Cores (Kaveri Desktop)
+Intel Iris Pro Graphics 5200
+AMD Radeon R7 384 Cores (Kaveri Desktop)
+NVIDIA GeForce GT 740M
+Intel Iris Plus Graphics 650
+NVIDIA GeForce 930M
+Intel Iris Graphics 550
+AMD Radeon 530
+AMD Radeon 625
+AMD Radeon RX Vega 6 (Ryzen 4000/5000)
+Intel Iris Plus Graphics 645
+NVIDIA GeForce 830M
+NVIDIA GeForce MX110
+Intel Iris Plus Graphics 640
+NVIDIA GeForce 920MX
+Intel Iris Graphics 540
+Intel UHD Graphics 24EUs (Alder Lake-N)
+NVIDIA Quadro K2000M
+NVIDIA GeForce GTS 450
+NVIDIA GeForce GTX 260M SLI
+NVIDIA GeForce GT 735M
+ATI Mobility Radeon HD 5870
+NVIDIA GeForce 825M
+NVIDIA Quadro 5000M
+AMD FirePro M4000
+ATI FirePro M7820
+AMD Radeon HD 6870M
+ATI Radeon HD 4850
+NVIDIA GeForce 9800M GTX SLI
+AMD Radeon HD 8830M
+AMD Radeon HD 8770M
+AMD Radeon R7 M260X
+NVIDIA GeForce GTX 460M
+AMD Radeon HD 8550G + HD 8750M Dual Graphics
+NVIDIA GeForce GT 730M
+NVIDIA GeForce GT 645M
+AMD Radeon HD 7750M
+AMD FirePro M4100
+AMD Radeon HD 8750M
+NVIDIA Quadro 3000M
+AMD Radeon R7 M270
+AMD Radeon R7 M265
+NVIDIA Quadro FX 3800M
+NVIDIA GeForce GTX 285M
+ATI Mobility Radeon HD 4870
+AMD Radeon R7 (Bristol Ridge)
+NVIDIA GeForce GT 640M
+AMD Radeon R7 (Carrizo)
+AMD Radeon R7 (Kaveri)
+AMD Radeon R8 M365DX
+AMD Radeon R7 M460
+AMD Radeon HD 7730M
+AMD Radeon R7 M360
+NVIDIA GeForce GTX 280M
+NVIDIA GeForce 920M
+NVIDIA GeForce 9800M GT SLI
+AMD Radeon HD 8690M
+AMD Radeon R8 M445DX
+AMD Radeon 620
+AMD Radeon R7 M440
+NVIDIA GeForce 9800M GTS SLI
+ATI Mobility Radeon HD 3870 X2
+NVIDIA GeForce 8800M GTX SLI
+ATI Mobility Radeon HD 3850 X2
+NVIDIA Quadro FX 3700M
+AMD Radeon R7 M260
+AMD Radeon R7 M340
+AMD Radeon 520
+AMD Radeon 610
+AMD Radeon 610M
+AMD Radeon R6 M340DX
+AMD Radeon RX Vega 6 (Ryzen 2000/3000)
+AMD Radeon RX Vega 5
+Intel UHD Graphics G1 (Ice Lake 32 EU)
+Intel UHD Graphics 630
+Intel UHD Graphics P630
+Intel UHD Graphics Xe 16EUs (Tiger Lake-H)
+Intel HD Graphics 630
+Intel HD Graphics P630
+Intel UHD Graphics G7 (Lakefield GT2 64 EU)
+Intel HD Graphics 530
+Intel HD Graphics P530
+AMD Radeon R5 (Bristol Ridge)
+Intel UHD Graphics 620
+Intel HD Graphics 620
+AMD Radeon R6 (Carrizo)
+Qualcomm Adreno 690
+Qualcomm Adreno 685
+Qualcomm Adreno 680
+ATI Mobility Radeon HD 4860
+ATI FirePro M7740
+ATI Mobility Radeon HD 4850
+NVIDIA GeForce GTX 260M
+NVIDIA GeForce 9800M GTX
+NVIDIA Quadro FX 2800M
+AMD Radeon HD 6775G2
+AMD Radeon HD 8670D
+AMD Radeon HD 7690M XT
+AMD FirePro M5950
+NVIDIA GeForce GT 640M LE
+AMD Radeon R6 (Kaveri)
+AMD Radeon HD 8650M
+AMD Radeon HD 8730M
+AMD Radeon HD 6770M
+NVIDIA GeForce GT 635M
+NVIDIA GeForce GT 555M
+ATI Radeon HD 5670
+ATI Mobility Radeon HD 5850
+AMD Radeon HD 6850M
+AMD FirePro W2100
+NVIDIA Quadro 2000M
+NVIDIA GeForce 9800M GT
+NVIDIA GeForce 8800M GTX
+NVIDIA Quadro FX 3600M
+NVIDIA GeForce GT 445M
+NVIDIA GeForce GTS 360M
+NVIDIA GeForce GT 240 GDDR5
+AMD Radeon HD 6755G2
+AMD Radeon HD 7690M
+Intel HD Graphics 5600
+AMD Radeon HD 8570D
+AMD Radeon HD 8650G + HD 8670M Dual Graphics
+AMD Radeon HD 8650G + HD 8570M Dual Graphics
+AMD Radeon HD 7660G + HD 7670M Dual Graphics
+AMD Radeon HD 8550G + HD 8670M Dual Graphics
+AMD Radeon HD 8670M
+AMD Radeon R6 M255DX
+AMD Radeon HD 7660D
+AMD Radeon HD 6750M
+NVIDIA Quadro K1000M
+NVIDIA GeForce GT 550M
+AMD Radeon HD 8590M
+NVIDIA GeForce GTS 260M
+NVIDIA GeForce GTS 160M
+NVIDIA GeForce 9800M GTS
+NVIDIA GeForce GT 430
+AMD Radeon HD 6830M
+ATI Mobility Radeon HD 5830
+AMD Radeon HD 6760G2
+AMD Radeon HD 6740G2
+AMD Radeon HD 6730M
+NVIDIA GeForce 9800M GS
+ATI Mobility Radeon HD 4830
+ATI Mobility Radeon HD 5770
+AMD Radeon HD 6570M
+AMD Radeon HD 8650G
+AMD Radeon HD 7640G + HD 7670M Dual Graphics
+AMD Radeon HD 6620G + HD 7670M Dual Graphics
+AMD Radeon HD 7520G + HD 7670M Dual Graphics
+AMD Radeon HD 7670M
+NVIDIA GeForce GT 630M
+AMD Radeon HD 7560D
+NVIDIA GeForce GTS 150M
+AMD Radeon R5 M335
+AMD Radeon R5 M330
+AMD Radeon R5 M430
+AMD Radeon R5 M255
+AMD Radeon RX Vega 3
+NVIDIA Quadro 1000M
+NVIDIA GeForce 910M
+NVIDIA GeForce 820M
+Intel HD Graphics 520
+Intel Iris Graphics 6100
+Intel UHD Graphics G4 (Lakefield GT1 48 EU)
+NVIDIA GeForce GT 720M
+NVIDIA GeForce 8800M GTS
+AMD Radeon R5 M240
+AMD Radeon R5 M320
+AMD Radeon R5 M230
+AMD Radeon R5 M315
+AMD Radeon R5 M420
+AMD Radeon RX Vega 2
+AMD Radeon R5 (Stoney Ridge)
+ATI Mobility Radeon HD 5750
+AMD Radeon HD 6720G2
+AMD Radeon HD 8450G + Radeon HD 8570M Dual Graphics
+AMD Radeon HD 8570M
+Intel HD Graphics 6000
+NVIDIA Quadro K610M
+AMD Radeon HD 8550M
+Intel Iris Graphics 5100
+NVIDIA GeForce GT 540M
+AMD Radeon HD 6690G2
+AMD Radeon HD 6650M
+Intel HD Graphics 4600
+ATI Mobility Radeon HD 5730
+Intel HD Graphics 5500
+Qualcomm Adreno 630
+Intel UHD Graphics (Jasper Lake 32 EU)
+Intel UHD Graphics (Elkhart Lake 32 EU)
+AMD Radeon R5 (Carrizo)
+Intel UHD Graphics 617
+Intel UHD Graphics 615
+Intel UHD Graphics (Jasper Lake 24 EU)
+Intel HD Graphics 615
+AMD Radeon R5 (Kaveri)
+ATI FirePro M5800
+NVIDIA NVS 5400M
+NVIDIA GeForce 710M
+AMD Radeon HD 7660G
+NVIDIA GeForce GT 435M
+AMD Radeon HD 6680G2
+Intel HD Graphics 5000
+NVIDIA Quadro K510M
+ATI Radeon HD 5570
+AMD Radeon HD 6550M
+AMD Radeon HD 7590M
+NVIDIA GeForce GTS 350M
+NVIDIA GeForce GTS 250M
+AMD Radeon HD 6630M
+AMD Radeon HD 7650M
+AMD FirePro M2000
+AMD Radeon HD 7570M
+AMD Radeon HD 7630M
+NVIDIA Quadro FX 1800M
+ATI Mobility Radeon HD 5650
+AMD Radeon HD 8510G
+AMD Radeon HD 6530M
+AMD Radeon HD 8550G
+NVIDIA Quadro K500M
+NVIDIA GeForce GT 625M
+NVIDIA GeForce GT 620M
+NVIDIA GeForce GT 525M
+AMD Radeon HD 6550D
+AMD Radeon HD 7640G + HD 7610M Dual Graphics
+AMD Radeon HD 7610M
+AMD Radeon HD 7620G
+AMD Radeon HD 8470D
+AMD Radeon HD 7640G
+Intel HD Graphics 515
+Intel UHD Graphics 610
+Intel HD Graphics 610
+Intel HD Graphics 4400
+AMD Radeon HD 8610G
+Intel HD Graphics 510
+NVIDIA NVS 5200M
+ATI Mobility Radeon HD 565v
+AMD Radeon HD 7550M
+ATI Mobility Radeon HD 4670
+NVIDIA GeForce GT 425M
+NVIDIA GeForce 9700M GTS
+AMD Radeon HD 6645G2
+NVIDIA Quadro FX 2700M
+NVIDIA GeForce GT 335M
+AMD Radeon HD 7500G + HD 7550M Dual Graphics
+AMD Radeon HD 7600G
+ATI Mobility Radeon HD 3870
+AMD Radeon HD 6620G + HD 7450M Dual Graphics
+AMD Radeon HD 6640G2
+ATI Mobility Radeon HD 5165
+ATI Mobility Radeon HD 560v
+ATI Mobility Radeon HD 4650
+NVIDIA GeForce Go 7950 GTX SLI
+NVIDIA GeForce GT 220
+NVIDIA GeForce Go 7900 GTX SLI
+NVIDIA GeForce GT 420M
+AMD Radeon HD 7530M
+ATI Mobility Radeon HD 3850
+NVIDIA GeForce GT 330M
+NVIDIA Quadro FX 880M
+NVIDIA Quadro NVS 5100M
+NVIDIA GeForce GT 240M
+AMD Radeon HD 7490M
+Intel UHD Graphics (Elkhart Lake 16 EU)
+Intel UHD Graphics (Jasper Lake 16 EU)
+Intel UHD Graphics 605
+Intel HD Graphics 505
+Intel HD Graphics 5300
+AMD Radeon HD 7510M
+NVIDIA GeForce Go 7950 GTX
+NVIDIA Quadro FX 3500M
+NVIDIA GeForce 8700M GT SLI
+NVIDIA GeForce 9700M GT
+NVIDIA GeForce GT 230M
+ATI Mobility Radeon HD 550v
+AMD Radeon HD 7480D
+Intel HD Graphics 4000
+AMD Radeon HD 6620G
+AMD Radeon R4 (Stoney Ridge)
+AMD Radeon R5 (Beema/Carrizo-L)
+AMD Radeon R4 (Beema)
+AMD Radeon R4 (Kaveri)
+AMD Radeon R3 (Mullins/Beema)
+AMD Radeon R2 (Stoney Ridge)
+Intel HD Graphics (Broadwell)
+Intel HD Graphics 4200
+Intel HD Graphics (Skylake)
+AMD Radeon HD 6450 GDDR5
+AMD Radeon HD 6545G2
+AMD Radeon HD 6520G + HD 7450M Dual Graphics
+AMD Radeon HD 6540G2
+AMD Radeon HD 7500G
+AMD Radeon HD 6480G + HD 7450M Dual Graphics
+AMD Radeon HD 6515G2
+AMD Radeon HD 8450G
+AMD Radeon HD 7470M
+AMD Radeon HD 6490M
+AMD Radeon HD 8410G
+AMD Radeon HD 8400
+NVIDIA GeForce GT 520MX
+AMD Radeon HD 7520G
+NVIDIA GeForce GT 325M
+NVIDIA GeForce Go 7800 GTX SLI
+NVIDIA GeForce 8600M GT SLI
+NVIDIA GeForce Go 7900 GS SLI
+NVIDIA GeForce GT 130M
+NVIDIA NVS 4200M
+NVIDIA GeForce Go 7900 GTX
+NVIDIA Quadro FX 2500M
+AMD Radeon HD 8350G
+AMD Radeon HD 8330
+Intel UHD Graphics 600
+Intel HD Graphics 500
+NVIDIA GeForce 9650M GS
+NVIDIA GeForce 9650M GT
+NVIDIA GeForce 8700M GT
+NVIDIA Quadro FX 1700M
+NVIDIA Quadro FX 1600M
+NVIDIA GeForce Go 7800 GTX
+NVIDIA GeForce Go 7900 GS
+NVIDIA Quadro NVS 320M
+NVIDIA Quadro FX 1500M
+NVIDIA GeForce 9600M GT
+NVIDIA GeForce GT 220M
+NVIDIA Quadro FX 770M
+NVIDIA GeForce GT 120M
+AMD Radeon HD 6510G2
+AMD Radeon HD 7450M
+NVIDIA GeForce 610M
+NVIDIA GeForce 705M
+Intel HD Graphics 405 (Braswell)
+Intel HD Graphics (Braswell)
+Intel HD Graphics 400 (Braswell)
+AMD Radeon HD 6470M
+AMD FirePro M3900
+NVIDIA GeForce GT 520M
+AMD Radeon HD 7420G
+ATI Mobility Radeon HD 3670
+ATI Mobility FireGL V5725
+Intel HD Graphics (Haswell)
+AMD Radeon HD 6520G
+AMD Radeon HD 8310G
+NVIDIA GeForce 320M
+NVIDIA GeForce GT 320M
+ATI Mobility Radeon HD 2600 XT
+ATI Mobility Radeon X1900
+ATI Mobility Radeon X1800XT
+ATI Mobility Radeon X1800
+NVIDIA GeForce Go 6800 Ultra
+NVIDIA GeForce Go 7800
+NVIDIA GeForce 9600M GS
+NVIDIA GeForce 9500M GS
+AMD Radeon HD 7400G
+AMD Radeon HD 6480G
+ATI Mobility Radeon HD 2700
+NVIDIA GeForce GT 415M
+NVIDIA GeForce 410M
+AMD Radeon HD 7370M
+AMD Radeon R2 (Mullins/Beema/Carrizo-L)
+AMD Radeon HD 6370M
+AMD Radeon HD 8280
+ATI Mobility Radeon HD 5470
+AMD Radeon HD 6450M
+AMD Radeon HD 7430M
+ATI Mobility Radeon HD 3650
+ATI Mobility FireGL V5700
+ATI Mobility Radeon HD 5145
+ATI Mobility Radeon HD 545v
+AMD Radeon HD 8240
+AMD Radeon R6 (Mullins)
+AMD Radeon HD 8250
+Intel HD Graphics (Cherry Trail)
+ATI Mobility Radeon HD 4570
+NVIDIA Quadro FX 570M
+ATI Mobility Radeon HD 5450
+NVIDIA GeForce 8600M GT
+ATI Mobility Radeon HD 2600
+Intel HD Graphics 3000
+NVIDIA Quadro FX 380M
+NVIDIA GeForce 310M
+NVIDIA GeForce G210M
+NVIDIA NVS 3100M
+NVIDIA GeForce 405M
+NVIDIA GeForce 315M
+NVIDIA GeForce Go 7600 GT
+NVIDIA GeForce 9500M G
+NVIDIA GeForce 8600M GS
+NVIDIA NVS 2100M
+NVIDIA GeForce Go 7700
+NVIDIA GeForce Go 6800
+NVIDIA Quadro FX Go 1400
+ATI Mobility Radeon X800XT
+AMD Radeon HD 6430M
+AMD Radeon HD 6380G
+ATI Mobility Radeon HD 5430
+AMD Radeon HD 8210
+ATI Mobility Radeon HD 540v
+ATI Mobility Radeon HD 4550
+Intel HD Graphics 2500
+Intel HD Graphics (Ivy Bridge)
+AMD Radeon HD 7350M
+AMD Radeon HD 6350M
+ATI Mobility Radeon HD 4530
+ATI Mobility Radeon HD 4350
+ATI Radeon HD 4350
+ATI Mobility Radeon HD 530v
+NVIDIA GeForce 305M
+ATI Mobility Radeon X1700
+ATI Mobility FireGL V5250
+ATI Mobility Radeon X2500
+NVIDIA GeForce Go 7600
+NVIDIA Quadro NVS 300M
+ATI Mobility Radeon X800
+ATI Mobility Radeon X1600
+ATI Mobility FireGL V5200
+ATI Mobility Radeon 9800
+NVIDIA GeForce Go 6600
+ATI Mobility Radeon X1450
+ATI Mobility Radeon X700
+ATI Mobility FireGL V5000
+NVIDIA GeForce G 110M
+AMD Radeon HD 6330M
+ATI Mobility Radeon HD 4330
+NVIDIA GeForce 8400M GT
+NVIDIA Quadro NVS 140M
+Intel HD Graphics 2000
+NVIDIA GeForce G 107M
+NVIDIA GeForce G 105M
+NVIDIA GeForce G 103M
+NVIDIA GeForce 9500M GE
+NVIDIA GeForce G 102M
+NVIDIA GeForce G 205M
+NVIDIA GeForce 9400M (G) / ION (LE)
+Intel HD Graphics (Sandy Bridge)
+Intel HD Graphics (Bay Trail)
+VIA Chrome9HD
+AMD Radeon HD 7340
+AMD Radeon HD 6320
+AMD Radeon HD 7310
+AMD Radeon HD 6310
+AMD Radeon HD 8180
+ATI Mobility Radeon HD 3470 Hybrid X2
+NVIDIA GeForce 9400M GeForceBoost
+ATI Mobility Radeon HD 3470
+NVIDIA GeForce 9300M G
+NVIDIA ION 2
+NVIDIA GeForce 9300M GS
+NVIDIA Quadro FX 370M
+NVIDIA Quadro NVS 160M
+NVIDIA GeForce 9200M GS
+AMD Radeon HD 7290
+AMD Radeon HD 6290
+ATI Mobility Radeon HD 3450
+ATI Mobility Radeon HD 3430
+ATI Mobility Radeon HD 3410
+ATI Mobility Radeon HD 2400 XT
+ATI Radeon HD 4270
+ATI Radeon HD 4250
+ATI Radeon HD 4200
+Intel Graphics Media Accelerator (GMA) HD Graphics
+AMD Radeon HD 6250
+NVIDIA Quadro NVS 150M
+NVIDIA Quadro FX 360M
+ATI Mobility Radeon X1350
+ATI Mobility Radeon X1400
+NVIDIA GeForce 9100M G
+NVIDIA GeForce 8400M GS
+NVIDIA Quadro NVS 135M
+ATI Mobility Radeon HD 2400
+ATI Radeon HD 3200
+ATI Radeon HD 4225
+ATI Radeon HD 4100
+ATI Mobility Radeon HD 3400
+ATI Radeon HD 3100
+NVIDIA GeForce 8400M G
+NVIDIA Quadro NVS 130M
+NVIDIA GeForce 8200M G
+Intel Graphics Media Accelerator (GMA) 4700MHD
+Intel Graphics Media Accelerator (GMA) 4500MHD
+Intel Graphics Media Accelerator (GMA) 4500M
+NVIDIA GeForce Go 7400
+NVIDIA Quadro FX 350M
+NVIDIA Quadro NVS 120M
+NVIDIA GeForce Go 7300
+NVIDIA Quadro NVS 110M
+ATI Mobility Radeon X600
+ATI Mobility FireGL V3200
+ATI Mobility FireGL V3100
+ATI Mobility Radeon X2300
+ATI Mobility Radeon HD 2300
+ATI Mobility Radeon 9700
+ATI Mobility FireGL T2e
+ATI Mobility Radeon X1300
+NVIDIA GeForce4 4200 Go
+ATI Mobility Radeon 9600
+ATI Mobility FireGL T2
+ATI Mobility Radeon 9550
+NVIDIA GeForce Go 7200
+NVIDIA GeForce Go 6400
+ATI Mobility Radeon X300
+NVIDIA GeForce Go 6250
+NVIDIA GeForce Go 6200
+NVIDIA GeForce FX Go 5700
+NVIDIA Quadro FX Go 1000
+NVIDIA GeForce FX Go 5600 / 5650
+ATI Radeon Xpress X1270
+ATI Radeon Xpress X1250
+ATI Radeon Xpress 1250
+ATI Radeon Xpress X1200
+Intel Graphics Media Accelerator (GMA) X3100
+Intel Graphics Media Accelerator (GMA) 3650
+NVIDIA GeForce 7190M
+NVIDIA GeForce 7150M
+ATI Radeon Xpress 1150
+NVIDIA GeForce Go 6150
+NVIDIA GeForce Go 6100
+NVIDIA GeForce 7000M
+Intel Graphics Media Accelerator (GMA) 3600
+ATI Mobility Radeon 9200
+ATI Mobility FireGL 9000
+NVIDIA GeForce FX Go 5200
+ATI Mobility Radeon 9000
+NVIDIA GeForce 4 488 Go
+NVIDIA GeForce 4 460 Go
+NVIDIA GeForce 4 440 Go
+NVIDIA GeForce 4 420 Go
+Intel Graphics Media Accelerator (GMA) 3150
+Intel Graphics Media Accelerator (GMA) 950
+ATI Mobility Radeon 7500
+ATI Mobility FireGL 7800
+Intel Graphics Media Accelerator (GMA) 900
+ATI Radeon Xpress 200M
+ATI Radeon Xpress 1100
+SIS Mirage 3+ 672MX
+SIS Mirage 3 671MX
+Intel Graphics Media Accelerator (GMA) 600
+Intel Graphics Media Accelerator (GMA) 500
+NVIDIA GeForce 3 Go
+NVIDIA GeForce 2 Go (200 / 100)
+ATI Mobility Radeon 9100 IGP
+ATI Mobility Radeon 9000 IGP
+ATI Mobility Radeon M7
+ATI Mobility Radeon M6
+VIA Chrome9 HC
+Intel Extreme Graphics 2
+ATI Mobility Radeon 7000 IGP
+ATI Radeon IGP 340M
+ATI Radeon IGP 320M
+VIA S3G UniChrome Pro II
+VIA S3G UniChrome Pro
+VIA Castle Rock
+SIS Mirage 2 M760
+SIS Mirage M661FX
+VIA S3 Graphics ProSavage8
+ATI Mobility 128 M3
+Silicon Motion SM502
