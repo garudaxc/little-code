@@ -13,6 +13,8 @@ import io
 import socket
 from datetime import datetime
 import time
+import zipfile
+from tkinter import filedialog
 
 EncryptionKey = r'+EsQIZSAj7rT28Jx5nF+yYhjkOTTdCH6dOub1MYMfvY='
 
@@ -270,10 +272,9 @@ class AdbConnection:
         self.apk_path = apk_path
         self.package_name = self.try_to_get_package_name(project_name)
 
-        self.logger('package_name', self.package_name)
+        assert self.package_name is not None, "can not get package name, please check project name"
 
-        if self.package_name is None:
-            self.package_name = 'com.kaboom.BeyondStar'
+        self.logger('package_name ', self.package_name)
 
         self.port = port
         if len(port) > 0:
@@ -315,11 +316,11 @@ class AdbConnection:
 
                 assert result == 0, f'can not find project path {candidata_path}'
 
-            print(f"found project path {candidata_path}")
+            self.logger(f"found project path {candidata_path}")
 
             return candidata_path
         except Exception as e:
-            print(e)
+            self.logger(str(e))
             return None
     
     def execute_adb_command(self, command : str, use_subprocess=False):
@@ -355,18 +356,32 @@ class AdbConnection:
         
         # return None
 
+        activity_names = ['com.tencent.dhm1', 'com.kaboom.BeyondStar', 'com.kaboom.beyondstar.trunk', 'com.kaboom.beyondstar.ob', 'com.kaboom.beyondstar.obn']
 
-        result = self.execute_adb_command('shell run-as com.kaboom.BeyondStar ls')
-        if result == 0:
-            return 'com.kaboom.BeyondStar'
+        for activity_name in activity_names:
+            
+            result = self.execute_adb_command(f'shell run-as {activity_name} ls')
+            if result == 0:
+                return activity_name
+
+        raise Exception('can not find package name')
+    
+        # result = self.execute_adb_command('shell run-as com.kaboom.BeyondStar ls')
+        # if result == 0:
+        #     return 'com.kaboom.BeyondStar'
         
         
-        result = self.execute_adb_command('shell run-as com.kaboom.beyondstar.trunk ls')
-        if result == 0:
-            return 'com.kaboom.beyondstar.trunk'
+        # result = self.execute_adb_command('shell run-as com.kaboom.beyondstar.trunk ls')
+        # if result == 0:
+        #     return 'com.kaboom.beyondstar.trunk'
+        
+        
+        # result = self.execute_adb_command('shell run-as com.kaboom.beyondstar.ob ls')
+        # if result == 0:
+        #     return 'com.kaboom.beyondstar.trunk'
 
-        else:
-            return 'com.kaboom.beyondstar.trunk'
+        # else:
+        #     return 'com.kaboom.beyondstar.trunk'
         
     def start_process(self):
         self.execute_adb_command(f'{self.conection_string} shell am start -n {self.package_name}/com.epicgames.ue4.GameActivity')
@@ -605,6 +620,61 @@ PlatformConfig.ContentDir = ""
     def disconnect(self):
         pass
 
+    staticmethod
+    def extract_pak_from_apk(file_path : str):
+        if not os.path.exists(file_path):
+            print(f'{file_path} not exists')
+            return
+        
+        path = os.path.dirname(file_path)
+
+        with zipfile.ZipFile(file_path, 'r') as zip_ref:
+            png_file_name = 'assets/main.obb.png'
+            try:
+                info = zip_ref.getinfo(png_file_name)
+                # print(info)
+            except KeyError:
+                print(f'{png_file_name} not found')
+                return
+            
+            # pak_file_path = zip_ref.extract(info, path)
+            # print(f'extract {pak_file_path} success')
+
+            png_file_obj = zip_ref.open(info)
+            assert png_file_obj is not None
+
+            with zipfile.ZipFile(png_file_obj, 'r') as png_file:
+                pak_file_name = 'BeyondStar/Content/Paks/BeyondStar-Android_ASTC.pak'
+                try:
+                    info = png_file.getinfo(pak_file_name)
+                    # print(info)
+                except KeyError:
+                    print(f'{pak_file_name} not found')
+                    return
+                
+                
+                out_file_name = os.path.splitext(os.path.basename(file_path))[0]
+                out_file_name = os.path.join(path, out_file_name + ".pak")
+
+                zip_pak_file = png_file.open(info)
+                with open(out_file_name, 'wb') as f:
+                    while True:
+                        chunk = zip_pak_file.read(1024 * 1024)
+                        if not chunk:
+                            break
+                        f.write(chunk)
+
+                # pak_file_path = png_file.extract(info, path)
+                print(f'extract {out_file_name} success')
+
+                # file_name = os.path.basename(file_name)
+                # new_file_name = os.path.join(path, AdbConnection.pak_file_name)
+
+            
+
+
+
+
 
 # derive from AdbConnection
 class SocketConnection(AdbConnection):
@@ -832,6 +902,13 @@ class Window:
         
         self.connection = SocketConnection(target_info)
         result_info.set(f'连接状态 : {self.connection.get_connection_info()}')
+
+    def extract_pak_from_apk(self):
+        print("extract pak from apk")
+        file_name = filedialog.askopenfilename(title="选择文件", filetypes=[("apk file", "*.apk"), ("all files", "*.*")])
+        
+        if file_name:
+            AdbConnection.extract_pak_from_apk(file_name)
         
     def create_window_frame(self):
         self.root.title("Utility")
@@ -1175,6 +1252,9 @@ class Window:
         button_copy_lated_apk = Button(tab3, text="copy latest apk", command=lambda : Utility.copy_latest_apk(), **style)
         current_row, current_column = self.setup_grid_layout(button_copy_lated_apk, current_row, current_column)
 
+        current_row, current_column = current_row + 1, 0
+        button_extract_pak_from_apk = Button(tab3, text="extract pak from apk", command=lambda : self.extract_pak_from_apk(), **style)
+        current_row, current_column = self.setup_grid_layout(button_extract_pak_from_apk, current_row, current_column)
 
         self.notebook.select(self.config.get("current_tab", 0))
 
@@ -1236,6 +1316,11 @@ def MainFrame():
 
 
 def call_main():
+    # file_name = r"D:\pak_size_analysis\BeyondStar-arm64_Development_450488_android_obn_internal_v0.45.0488.1_134_20250225_110909.apk"
+    # AdbConnection.extract_pak_from_apk(file_name)
+
+    # return
+
     current_module = inspect.getmodule(inspect.currentframe())
 
     callables = []

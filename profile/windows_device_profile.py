@@ -11,6 +11,7 @@ rul = r"https://www.ludashi.com/rank/index.html"
 headers = ""
 
 
+output_file = r"D:\小工具\unreal_script\gen_pc_device_profile.txt"
 
 def make_unique_gpu_list(gpu_rank_list, keep_order=True):
     unique_list = list(set(gpu_rank_list))
@@ -102,7 +103,6 @@ def generate_gpu_rank_ludashi():
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(gpu_rank_list))
     
-    output_file = r"D:\小工具\unreal_script\pc_device_profile.txt"
     num_line = 0
     with open(output_file, 'w') as f:
         # match_string = r'+MatchProfile=(Profile="IOS_Grade5",TCQualityGrade="IOS_IPhone_NEW_UNKNOW",Match=((StartWith="iPhone",MajorBegin=0,MajorEnd=99,MinorBegin=0,MinorEnd=99)))'
@@ -227,44 +227,367 @@ def scrape_gpu_rank_from_TechPowerUp():
 
     #save to file
 
-def read_list_from_file(file_name):
+def read_list_from_file(file_name, stript_band=False):
     with open(file_name, 'r', encoding='utf-8') as f:
         lines = f.readlines()
         lines = [line.strip() for line in lines if line.strip() != '']
 
+        if stript_band:
+            lines = [line.removeprefix('ATI ').removeprefix('Intel ').removeprefix('NVIDIA ').removeprefix('AMD ') for line in lines]
+
         return lines
 
 
-def cross_validate_gpu_rank():
+class GPUName:
+    def __init__(self, name, rank = -1):
+        self.rank = rank
+        
+        bands = ['Intel(R)', 'ATI', 'Intel', 'NVIDIA', 'AMD']
+        # self.band = []
+
+        if name.startswith('Intel '):
+            name = name.replace('Intel ', 'Intel(R) ')
+
+        self.with_ti = False
+        self.with_SUPER = False
+        self.laptop = False
+        self.with_series = False
+        self.with_memory = False
+        self.with_maxQ = False
+        while True:
+            # for band in bands:
+            #     if name.startswith(band):
+            #         name = name.removeprefix(band).strip()
+            #         self.band.append(band)
+
+            dumy_match = re.match(".*?(?=\s+Graphics)$", name)
+            if dumy_match:
+                name = dumy_match.group(0).strip()
+                continue
+
+            mem_match = re.match(".*(?=\s+\d\d?GB?$)", name)
+            maxQ_match = re.match(".*?(?=\s+(with\s+)?Max-Q.*)", name)
+            laptop_match = re.match(".*?(?=\s+\(Laptop\))", name)
+            if name.endswith('Ti'):
+                name = name.removesuffix('Ti').strip()
+                self.with_ti = True
+                continue
+            elif name.endswith('SUPER'):
+                name = name.removesuffix('SUPER').strip()
+                self.with_SUPER = True
+                continue
+            elif name.endswith('Super'):
+                name = name.removesuffix('Super').strip()
+                self.with_SUPER = True
+                continue
+            elif name.endswith('Laptop GPU'):
+                name = name.removesuffix('Laptop GPU').strip()
+                self.laptop = True
+                continue
+            elif laptop_match:
+                name = laptop_match.group(0).strip()
+                self.laptop = True
+                continue
+            elif name.endswith('Series'):
+                name = name.removesuffix('Series').strip()
+                self.with_series = True
+                continue
+            elif mem_match:
+                name = mem_match.group(0).strip()
+                self.with_memory = True
+                continue
+            elif maxQ_match:
+                name = maxQ_match.group(0).strip()
+                self.with_maxQ = True
+                continue
+            else:
+                break
+
+        
+        self.name = name
+        
+        flag = 0
+        if self.with_ti:
+            flag |= 1
+        if self.with_SUPER:
+            flag |= 2
+        if self.laptop:
+            flag |= 4
+        # if self.with_series:
+        #     flag |= 8
+        # if self.with_memory:
+        #     flag |= 32
+        if self.with_maxQ:
+            flag |= 64
+
+        self.flag = flag
+
+        self.match_string = self.make_match_string()
+
+    def full_match(self, other):
+        return self.name == other.name and self.flag == other.flag        
+    
+    def __str__(self):        
+
+        return '[%s] [flag %x] [rank %d]' % (self.name, self.flag, self.rank)
+    
+    def __eq__(self, other):
+        return self.name == other.name
+
+    def set_score(self, score):
+        self.score = score
+
+    def make_match_string(self):        
+
+        match_string = f"{self.name}"
+        match_string = match_string.replace('(', '\\(').replace(')', '\\)').replace('-', '\\-')
+        
+        if self.with_ti:
+            match_string += ' Ti'
+        if self.with_SUPER:
+            match_string += ' (?:SUPER)|(?:Super)'
+        if self.laptop:
+            match_string += ' Laptop GPU'
+        if self.with_maxQ:
+            match_string += ' with Max\\-Q(?: Design)?'
+
+        return match_string
+
+    def final_match_string(self):
+        return f'+MatchProfile=(Profile=GST_GPU, Score={self.score}, Match=((SourceType=SRC_GpuFamily, CompareType=CMP_Regex, MatchString=\"{self.match_string}\")))'
+
+def add_handmaade_gpu_rank(gpu_list):
+
+    def add(gpu_name, flag, rank):
+        found = False
+        for gpu in gpu_list:
+            if gpu.name == gpu_name and gpu.flag == flag:
+                gpu.rank = rank
+                found = True
+                break
+
+        if not found:
+            # print(f'gpu [{gpu_name}] not found')
+            gpu = GPUName(gpu_name, rank)
+            gpu.flag = flag
+            gpu_list.append(gpu)
+
+    # 手动你添加一些常用的gpu, rank值来自于notebookcheck排名
+    # https://www.notebookcheck.net/Smartphone-Graphics-Cards-Benchmark-List.149363.0.html
+    add("NVIDIA GeForce RTX 5090", 0, 1)
+    add("NVIDIA GeForce RTX 5080", 0, 3)
+    add("NVIDIA GeForce RTX 5070 Ti", 0, 5)
+    add("NVIDIA GeForce RTX 3050", 1, 140)
+    add("NVIDIA GeForce GTX 1650", 1, 215)
+    add("NVIDIA GeForce RTX 2050", 0, 227)
+    add("NVIDIA GeForce GTX 750", 0, 400)
+    add("NVIDIA GeForce GTX 260", 0, 550)
+
+    add("Intel(R) Arc(TM)", 0, 200)
+    add("Intel(R) Iris(R) Xe", 0, 350)
+    add("Intel(R) Iris(R)", 0, 550)
+
+    add("NVIDIA GeForce 8800 GTX", 0, 600)
+    add("NVIDIA GeForce 9500 GT", 0, 1000)
+    add("NVIDIA GeForce 9600 GT", 0, 900)
+    add("NVIDIA GeForce 9800 GT", 0, 650)
+    add("NVIDIA GeForce GTS 250", 0, 1000)
+    add("NVIDIA GeForce 8400 GS", 0, 1000)
+    add("NVIDIA GeForce 9400 GT", 0, 1000)
+    add("NVIDIA GeForce G210", 0, 1000)
+    add("NVIDIA GeForce 8600 GT", 0, 1000)
+    
+    add("AMD Radeon(TM) Vega 3 Graphics", 0, 700)
+    add("AMD Radeon(TM) Vega 8 Graphics", 0, 500)
+    add("AMD Radeon RX 550", 0, 400)
+    add("NVIDIA GeForce GT 730", 0, 600)
+    add("NVIDIA GeForce GTX 650", 0, 500)
+    add("NVIDIA GeForce GT 240", 0, 670)
+    add("NVIDIA GeForce 210", 0, 1000)
+
+    add("NVIDIA GeForce GTX 550 Ti", 0, 476)
+    add("NVIDIA GeForce GT 620", 0, 809)
+    add("NVIDIA T600 Laptop GPU", 0, 258)
+    add("NVIDIA GeForce GT 740", 0, 554)
+    add("NVIDIA GeForce 820A", 0, 720)
+    add("NVIDIA Quadro P2200", 0, 250)
+    add("NVIDIA Quadro T2000 with Max-Q Design", 0, 241)
+    add("NVIDIA Quadro P620", 0, 361)
+    add("NVIDIA GeForce MX110", 0, 564)
+    add("NVIDIA Quadro P2000", 0, 285)
+    add("NVIDIA GeForce GT 720", 0, 725)
+
+    add("AMD Radeon RX 580 2048SP", 0, 200)
+    add("AMD Radeon RX590 GME", 0, 202)
+
+    add("Radeon 520", 0, 626)
+    add("Radeon RX 560", 0, 332)
+
+    add("Radeon(TM) RX 460 Graphics", 0, 327)
+    add("Radeon RX 550X", 0, 362)
+    add("Radeon RX 580 Series", 0, 203)
+    add("Radeon RX 570 Series", 0, 209)
+    add("Radeon (TM) RX 470 Series", 0, 247)
+    
+    add("AMD  Radeon RX 7800 XT", 0, 24)
+    add("AMD Radeon RX 6750 GRE", 0, 54)
+    add("AMD Radeon 780M Graphics", 0, 276)
+    add("AMD Radeon R5 M200 / HD 8500M Series", 0, 730)
+
+    add("AMD Radeon R7 Graphics", 0, 400)
+    add("AMD Radeon R7 200 Series", 0, 400)
+    add("AMD Radeon (TM) R9 380 Series", 0, 279)
+
+    add("AMD Radeon(TM) Graphics", 0, 500)
+    add("NVIDIA Graphics Device", 0, 999)
+    add("Intel(R) HD Graphics", 0, 1000)
+    add("Intel(R) UHD Graphics", 0, 800)
+
+    add("Mirage Driver", 0, 999)
+    add("Virtual Display Adapter", 0, 999)
+    add("Virtual Display Device", 0, 999)
+    add("GameViewer Virtual Display Adapter", 0, 999)
+
+
+
+
+
+
+
+
+# 生成pc端的gpu匹配规则
+def generate_pc_gpu_rank():
 
     file_name_steam = r"D:\小工具\profile\GPU_name_steam.txt"
     gpu_list_steam = read_list_from_file(file_name_steam)
+
+    gpu_list_tencent = read_list_from_file(r"D:\小工具\profile\gpu_name_tencent.txt")
+
+
+    gpu_list = []
+
+    def collect_gpu_list(gpu_list, gpu_names):
+
+        for gpu_name in gpu_names:
+            other = GPUName(gpu_name)
+            matched = False
+            for gpu in gpu_list:
+                if gpu.full_match(other):
+                    matched = True
+                    break
+            if not matched:
+                gpu_list.append(other)
+
+    #以steam,和腾讯大盘为基准
+    collect_gpu_list(gpu_list, gpu_list_steam)
+    collect_gpu_list(gpu_list, gpu_list_tencent)
+
     
-    gpu_list_ludashi = read_list_from_file(r"D:\小工具\profile\gpu_rank_list_ludashi.txt")
+    #save to file
+    # output_file = r"D:\小工具\profile\gpu_name_list.txt"
+    # with open(output_file, 'w', encoding='utf-8') as f:
+    #     f.write('\n'.join([str(i) for i in gpu_list]))
 
-    gpu_list_techpowerup = read_list_from_file(r"D:\小工具\profile\gpu_rank_list.txt")
+    # for gpu_name in gpu_list:
+    #     if gpu_name not in gpu_list_steam:
+    #         print('[%s] not in steam' % gpu_name)
+    #     print(gpu_name)
+
+    # ludashi_rank_list = []
+    # collect_gpu_list(ludashi_rank_list, gpu_list_ludashi)
+
+    # 性能评分以notebookcheck排名为准
+    gpu_list_notebookcheck = read_list_from_file(r"D:\小工具\profile\gpu_rank_notebookcheck.txt")
+    rank_notebook = []
+    for index, gpu_name in enumerate(gpu_list_notebookcheck):
+        rank_notebook.append(GPUName(gpu_name, index))
+
+
+    def find_gpu_rank(gpu, rank_list):
+        for rank_gpu in rank_list:
+            if rank_gpu.full_match(gpu):
+                return rank_gpu.rank
+        return -1
+    
+    add_handmaade_gpu_rank(gpu_list)
 
     count = 0
-    for gpu_name in gpu_list_steam:
-        if gpu_name not in gpu_list_ludashi:
-            count += 1
-            print('steam not in ludashi', gpu_name)
+    for gpu in gpu_list:
 
-        # if gpu_name not in gpu_list_techpowerup:
-        #     print('steam not in techpowerup', gpu_name)
+        # for other in rank_notebook:
+        #     if gpu.name != other.name and gpu.name.find(other.name) != -1:
+        #         print(f'[{gpu.name}] match [{other.name}]')
+        #         count += 1
 
-    print('total gpu in steam ', len(gpu_list_steam), 'not in ludashi ', count)
+        rank = find_gpu_rank(gpu, rank_notebook)
+        if rank != -1:
+            gpu.rank = rank
 
-    count = 0
-    for gpu_name in gpu_list_steam:
-        if gpu_name not in gpu_list_techpowerup:
-            count += 1
-            print('steam not in techpowerup', gpu_name)
+        # if rank == -1 and gpu.rank == -1:
+        #     print('%d %s' % (count, str(gpu)))
+        #     count += 1
 
-    print('total gpu in steam ', len(gpu_list_steam), 'not in techpowerup ', count)
+    # print gpu with rank -1
+    # for gpu in gpu_list:
+    #     if gpu.rank == -1:
+    #         print(gpu.name)
+
+
+    #sort by rank
+    gpu_list = [gpu for gpu in gpu_list if gpu.rank != -1]
+    gpu_list.sort(key=lambda x: x.rank)
+
+    # set score
+    count = len(gpu_list)        
+    for index, gpu in enumerate(gpu_list):
+        gpu.set_score(count - index)
+    
+    gpu_list.sort(key=lambda x: x.match_string, reverse=False)
+
+    #save to file
+    with open(output_file, 'w', encoding='utf-8') as f:
+
+        
+        #分档基线
+        baseline_grade2 = 'NVIDIA GeForce GTX 960'
+        baseline_grade3 = 'NVIDIA GeForce RTX 3060'
+
+        score_grade2 = list(filter(lambda x: x.name == baseline_grade2 and x.flag == 0, gpu_list))[0].score
+        score_grade3 = list(filter(lambda x: x.name == baseline_grade3 and x.flag == 0, gpu_list))[0].score
+
+        f.write('\n;WindowsGradeScoreProfileName\n')
+        f.write(r'[/Script/WindowsDeviceProfileSelector.WindowsGradeScoreProfileName]')
+        f.write('\n')
+        f.write('+MatchProfile=(Profile="Windows_Grade1",TCQualityGrade="Grade01",Score=-100)\n')
+        f.write('+MatchProfile=(Profile="Windows_Grade2", TCQualityGrade="Grade02", Score=%d)\n' % score_grade2)
+        f.write('+MatchProfile=(Profile="Windows_Grade3", TCQualityGrade="Grade03", Score=%d)\n' % score_grade3)
+
+        f.write('\n;按字符串排序，从短到长匹配\n')
+        f.write(r'[/Script/WindowsDeviceProfileSelector.WindowsGradeMatchProfileRules]')
+        f.write('\n')
+        for gpu in gpu_list:
+            str = gpu.final_match_string()
+            f.write(f'{str}\n')
+
+
+        print('done output to file ', output_file)
+        subprocess.run(['start', output_file], shell=True)
 
 
 if __name__ == "__main__":
     # generate_gpu_rank()
-    # cross_validate_gpu_rank()
-    scrape_gpu_rank_from_TechPowerUp()
+    # scrape_gpu_rank_from_TechPowerUp()
+
+    #生成pc端
+    generate_pc_gpu_rank()
+    
+    # maxQ_match = re.match(".*?(?=\s+(with\s+)?Max-Q.*)", 'NVIDIA GeForce RTX 3060 with Max-Q')
+    # print(f'\'{maxQ_match.group(0)}\'')
+
+
+    # laptop_match = re.match(".*?(?=\s+\(Laptop\))", 'NVIDIA GeForce GTX 980 (Laptop)')
+    # print(f'\'{laptop_match.group(0)}\'')
+
+    # dumy_match = re.match(".*?(?=\s+Graphics)", 'Radeon Vega 8 Graphics')
+    # print(f'\'{dumy_match.group(0)}\'')
+

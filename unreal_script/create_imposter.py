@@ -401,7 +401,6 @@ def TestCreateLod(asset_path):
     redution_setting.screen_size = 0.05
     redution_option.reduction_settings.append(redution_setting)
 
-
     result = unreal.EditorStaticMeshLibrary.set_lods(mesh, redution_option)
     print(f'set lod result {result}')
 
@@ -423,11 +422,132 @@ def FindMeshWithOnlyImposter():
             print(f'{asset_name} has 2 lod')
 
 
+def TestHasImposter(mesh):
+    num_lods = mesh.get_num_lods()
+    if num_lods == 1:
+        return False
+
+    last_lod = num_lods - 1
+    num_vertex = unreal.EditorStaticMeshLibrary.get_number_verts(mesh, last_lod)
+
+    if num_vertex == 4:
+        return True
+
+    return False
+    
+def BatchValidScreenSize(asset_list : list, only_check = False):
+    '''
+    screen size of lod 0 should be 1.0
+    screen size of imposter should be 0.01
+    '''
+
+    invalid_list = []
+    # asset_registry = unreal.AssetRegistryHelpers.get_asset_registry()
+    for asset_data in asset_list:
+        asset_name = asset_data.package_name
+        if asset_data.asset_class != 'StaticMesh':
+            print(f'{asset_name} is not mesh')
+            continue
+
+        if not TestHasImposter(asset_data.get_asset()):
+            print(f'{asset_name} has no imposter')
+            continue
+
+        mesh = asset_data.get_asset()
+        num_lods = mesh.get_num_lods()
+        if num_lods == 1:
+            print(f'{asset_name} has 1 lod')
+            continue
+
+        screen_sizes = unreal.EditorStaticMeshLibrary.get_lod_screen_sizes(mesh)
+        for i, size in enumerate(screen_sizes):
+            if (i == 0 and size != 1.0) or (i < num_lods - 1 and size == 0):
+                invalid_list.append(asset_data)
+                print(f'{asset_name} screen size {screen_sizes}')
+                break
+
+    if only_check:
+        print('done')
+        return
+
+    # p4 = perforce_tool.P4Wrapper()
+    # p4_state_valid = True
+    # for asset_data in invalid_list:
+    #     asset_name = asset_data.package_name
+    #     file_name = unreal.EditorAssetLibrary.package_name_to_file_name(asset_name)
+    #     if (not p4.IsSynced(file_name)) or p4.IsLocalModified(file_name):
+    #         p4_state_valid = False
+    #         print(f'{asset_name} is not synced')
+
+    # if not p4_state_valid:
+    #     print('invalid asset list, please fix before retry')
+    #     return
+    
+    # p4_state_valid = True
+    # file_list = []
+
+    # for asset_data in invalid_list:
+    #     asset_name = asset_data.package_name
+    #     file_name = unreal.EditorAssetLibrary.package_name_to_file_name(asset_name)
+    #     file_list.append(file_name)
+    #     if not p4.Checkout(file_name):
+    #         p4_state_valid = False
+    #         print(f'checkout {asset_name} failed')
+    #         break
+
+    # result = p4.CreateChangeList(file_list, 'BatchValidScreenSize')
+    # assert result
+
+    # if not p4_state_valid:
+    #     print('checkout failed, please fix before retry')
+    #     return
+    
+    
+    for asset_data in invalid_list:
+        asset_name = asset_data.package_name
+        
+        mesh = asset_data.get_asset()
+
+        num_lods = mesh.get_num_lods()        
+        screen_sizes = unreal.EditorStaticMeshLibrary.get_lod_screen_sizes(mesh)
+        assert screen_sizes[0] == 0.0
+
+        print(f'fixing {asset_name}')
+        unreal.EditorStaticMeshLibrary.set_lod_screen_size(mesh, 0, 1.0)
+
+    print('done')
+
+
+def Main():
+    # file = r'd:\ka1_client\client\trunk\BeyondStar\Content\Buildings\K02\K02_F\K02_Tree_Oasis_05.uasset'
+    # p4 = perforce_tool.P4Wrapper()
+
+    # if p4.IsLocalModified(file):
+    #     print('file is modified')
+
+    # return
+
+    asset_list = GetAssetList()
+    asset_data_list = []
+    asset_registry = unreal.AssetRegistryHelpers.get_asset_registry()
+    for asset_name in asset_list:
+        asset_data = asset_registry.get_asset_by_object_path(asset_name)
+        if asset_data and asset_data.is_valid():
+            asset_data_list.append(asset_data)
+
+    BatchValidScreenSize(asset_data_list)
+
+    
+
+    
+
 
 if __name__ == "__main__":
+    Main()
 
-    if True:
-        FindMeshWithOnlyImposter()
+    # if True:
+
+        # FindMeshWithOnlyImposter()
 
         # test_asset = '/Game/Buildings/K02/K02_F/K02_Tree_Oasis_10.K02_Tree_Oasis_10'
         # TestCreateLod(test_asset)
@@ -441,37 +561,37 @@ if __name__ == "__main__":
 
         # StatMeshLods()
     
-    else:
-        asset_path = '/Game/Buildings/K02/K02_F/M_K02_SpaceTree_01.M_K02_SpaceTree_01'
+    # else:
+    #     asset_path = '/Game/Buildings/K02/K02_F/M_K02_SpaceTree_01.M_K02_SpaceTree_01'
 
-        asset_registry = unreal.AssetRegistryHelpers.get_asset_registry()
-        lod_mesh = unreal.EditorAssetLibrary.load_asset(lod_mesh_path)
-        assert lod_mesh
-
-
-        CreateFoliageImposterLod(asset_path, True, lod_mesh)
-
-    if False:
+    #     asset_registry = unreal.AssetRegistryHelpers.get_asset_registry()
+    #     lod_mesh = unreal.EditorAssetLibrary.load_asset(lod_mesh_path)
+    #     assert lod_mesh
 
 
-        asset_data = asset_registry.get_asset_by_object_path(asset_path)
+    #     CreateFoliageImposterLod(asset_path, True, lod_mesh)
 
-        assert asset_data
-        mesh = asset_data.get_asset()
+    # if False:
 
-        num_lods = mesh.get_num_lods()
 
-        last_lod = num_lods - 1
-        num_sections = mesh.get_num_sections(last_lod)
+    #     asset_data = asset_registry.get_asset_by_object_path(asset_path)
 
-        num_vertex = unreal.EditorStaticMeshLibrary.get_number_verts(mesh, last_lod)
+    #     assert asset_data
+    #     mesh = asset_data.get_asset()
 
-        print(f'lods {num_lods} sections {num_sections} vertex {num_vertex}')
+    #     num_lods = mesh.get_num_lods()
 
-        # if num_lods > 1 and num_vertex == 4:
-        if num_lods == 1 or num_vertex != 4:
-            result = unreal.EditorStaticMeshLibrary.set_lod_from_static_mesh(mesh, num_lods, lod_mesh, 0, False)
-            print(f'result {result}')
+    #     last_lod = num_lods - 1
+    #     num_sections = mesh.get_num_sections(last_lod)
+
+    #     num_vertex = unreal.EditorStaticMeshLibrary.get_number_verts(mesh, last_lod)
+
+    #     print(f'lods {num_lods} sections {num_sections} vertex {num_vertex}')
+
+    #     # if num_lods > 1 and num_vertex == 4:
+    #     if num_lods == 1 or num_vertex != 4:
+    #         result = unreal.EditorStaticMeshLibrary.set_lod_from_static_mesh(mesh, num_lods, lod_mesh, 0, False)
+    #         print(f'result {result}')
 
 
 
@@ -492,11 +612,5 @@ if __name__ == "__main__":
 
     
     
-    # asset_registry = unreal.AssetRegistryHelpers.get_asset_registry()
-    # asset_data = asset_registry.get_asset_by_object_path(asset_path)
-
-    # assert asset_data
-
-    # create_imposter(asset_data)
 
     pass

@@ -126,7 +126,36 @@ def TestIosDevice():
     #     print(f'{item[0]} : {item[1]} : {item[2]}')
 
 
+def TestWindowsDevice():
+    samples_file = r'D:\小工具\device_profile_test\pc_device_2025_0310_1142.xlsx'
+    workbook = openpyxl.load_workbook(samples_file)
+    sheet = workbook['Sheet1']
 
+    gpu_names = []
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+        gpu_family_name = row[2]
+        if gpu_family_name is None:
+            continue
+        if gpu_family_name in gpu_names:
+            continue
+        gpu_names.append(gpu_family_name)
+
+    print('total gpu names : ', len(gpu_names))
+
+    # for index, gpu_family_name in enumerate(gpu_names):
+    #     print(f'{index} : {gpu_family_name}')
+
+
+    invalid_gpu_names = []
+    for gpu_family_name in gpu_names:
+        result = unreal.K6UtilityFunctionLibrary.test_windows_devices_profiles(gpu_family_name)
+        if result is None:
+            invalid_gpu_names.append(gpu_family_name)
+
+    print('invalid gpu names : ', len(invalid_gpu_names))
+    for item in invalid_gpu_names:
+        print(item)
 
 if __name__ == "__main__":
-    TestIosDevice()
+    # TestIosDevice()
+    TestWindowsDevice()

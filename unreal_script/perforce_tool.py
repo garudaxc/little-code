@@ -139,6 +139,7 @@ class P4Wrapper:
             return result
         except P4Exception as e:
             print("出现错误:", e)
+            return None
 
 
 if __name__ == '__main__':
